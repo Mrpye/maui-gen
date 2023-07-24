@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="{{.FullNS}}.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:{{.RootNS}}.ViewModels"
+    x:DataType="vm:MainViewModel"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+
+    <VerticalStackLayout
+        Margin="5"
+        Padding="5"
+        BackgroundColor="{StaticResource Gray100}"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <Label
+            Margin="0,0,0,10"
+            Padding="20"
+            BackgroundColor="{StaticResource Blue100Accent}"
+            FontAttributes="Bold"
+            FontSize="20"
+            Text="Main Menu" />
+        {{range $s := .RootSchema.Schemas}}
+        <VerticalStackLayout
+            Margin="0,0,0,10"
+            Padding="5"
+            BackgroundColor="{StaticResource Gray50}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <Button Margin="5" Command="{Binding Show{{$s.FuncName}}Command}" Text="{{$s.FuncName}}" />
+        </VerticalStackLayout>
+        {{end}}
+    </VerticalStackLayout>
+</ContentPage>

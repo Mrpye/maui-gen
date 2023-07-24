@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page:StandardContentPage
+    x:Class="{{.FullNS}}.{{.Schema.FuncName}}ListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:{{.RootNS}}.Models"
+    xmlns:page="clr-namespace:{{.RootNS}}.Views"
+    xmlns:vm="clr-namespace:{{.RootNS}}.ViewModels"
+    x:Name="this"
+    Title="List {{.Schema.FuncName}}"
+    x:DataType="vm:{{.Schema.FuncName}}ListViewModel"
+    IsRefreshing="{Binding IsRefreshing}"
+    LeftButtonCommand="{Binding CancelCommand}"
+    LeftButtonTitle="Cancel"
+    LeftButtonVisible="False"
+    MaximumWidthRequest="500"
+    RightButtonCommand="{Binding OkCommand}"
+    RightButtonTitle="Done"
+    RightButtonVisible="true"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+    <ContentView
+        ControlTemplate="{StaticResource StandardLayoutTemplate}"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+
+        <VerticalStackLayout
+            Margin="12"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <!--  Start View Details  -->
+            <Button
+                Margin="10"
+                Command="{Binding Add{{.Schema.FuncName}}Command}"
+                HorizontalOptions="Start"
+                Text="Add {{.Schema.FuncName}}"
+                VerticalOptions="FillAndExpand"
+                WidthRequest="200" />
+            <RefreshView
+                Grid.Row="1"
+                Grid.Column="0"
+                Command="{Binding LoadDataCommand}"
+                HorizontalOptions="FillAndExpand"
+                IsRefreshing="{Binding IsRefreshing}"
+                VerticalOptions="FillAndExpand">
+                <CollectionView ItemsSource="{Binding Items}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="m:{{.Schema.FuncName}}Model">
+                            <SwipeView>
+                                <!--  IsEnabled="{Binding Manually_added}"  -->
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            BackgroundColor="LightPink"
+                                            Command="{Binding Source={x:Reference this}, Path=BindingContext.DeleteCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IconImageSource="delete.svg" />
+                                        <SwipeItem
+                                            BackgroundColor="LightGreen"
+                                            Command="{Binding Source={x:Reference this}, Path=BindingContext.EditCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IconImageSource="ic_edit.png" />
+
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <VerticalStackLayout VerticalOptions="FillAndExpand">
+                                    {{if .Schema.FlagExists `ListView_DISPLAY_PROPERTY`}}
+                                        <Label FontSize="Default" Text="{Binding {{.Schema.GetFlagParam `ListView_DISPLAY_PROPERTY` 0 }}}" />
+                                    {{else}}
+                                        {{range $field := .Schema.Fields}}{{if $field.NoFlag `ListView_EXCLUDE`}}<Label Text="{{camel $field.Name}}" />
+                                        <Label FontSize="Default" Text="{Binding {{$field.PubVarName}}}" />
+                                        {{end}}{{end}}
+                                    {{end}}
+                                    <BoxView
+                                        Margin="0,10,0,0"
+                                        HeightRequest="1"
+                                        Color="{StaticResource Gray300}" />
+                                </VerticalStackLayout>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+            <!--  Start View Details  -->
+
+
+        </VerticalStackLayout>
+
+    </ContentView>
+</page:StandardContentPage>

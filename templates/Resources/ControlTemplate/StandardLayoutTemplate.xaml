@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!--
+        Define your resources here
+    -->
+    <ControlTemplate xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" x:Key="StandardLayoutTemplate">
+        <Grid>
+            <!--  Refreshing Message  -->
+            <VerticalStackLayout
+                Margin="0,200,0,0"
+                HorizontalOptions="FillAndExpand"
+                IsVisible="{TemplateBinding Parent.IsRefreshing}"
+                VerticalOptions="FillAndExpand">
+              
+                <Label
+                    Margin="10"
+                    FontAttributes="Bold"
+                    FontSize="30"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="{TemplateBinding Parent.IndicatorMsg}" />
+                <ActivityIndicator IsRunning="{TemplateBinding Parent.IsRefreshing}" />
+            </VerticalStackLayout>
+            <!--  Refreshing Message  -->
+            <Grid IsVisible="{TemplateBinding Parent.IsRefreshing, Converter={StaticResource GNotBoolValue}}">
+                <!--  Scroll View  -->
+                <ScrollView Margin="0,0,0,70" VerticalScrollBarVisibility="Always">
+                    <!--  Content  -->
+                    <VerticalStackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <ContentPresenter />
+                        <!--  Header and match info  -->
+                    </VerticalStackLayout>
+                    <!--  Content  -->
+                </ScrollView>
+                <!--  Scroll View  -->
+
+                <!--  Bottom Buttons  -->
+                <Grid
+                    Margin="10"
+                    BackgroundColor="{StaticResource Gray100}"
+                    ColumnDefinitions="50*,50*"
+                    HorizontalOptions="FillAndExpand"
+                    IsVisible="{TemplateBinding Parent.FooterVisible}"
+                    RowDefinitions="Auto"
+                    VerticalOptions="EndAndExpand">
+
+                    <Button
+                        x:Name="template_button1"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="5"
+                        Command="{TemplateBinding Parent.LeftButtonCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        IsEnabled="{TemplateBinding Parent.IsRefreshing,
+                                                    Converter={StaticResource GNotBoolValue}}"
+                        IsVisible="{TemplateBinding Parent.LeftButtonVisible}"
+                        Style="{StaticResource Cancel}"
+                        Text="{TemplateBinding Parent.LeftButtonTitle}" />
+                    <Button
+                        x:Name="template_button2"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5"
+                        Command="{TemplateBinding Parent.RightButtonCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        IsEnabled="{TemplateBinding Parent.IsRefreshing,
+                                                    Converter={StaticResource GNotBoolValue}}"
+                        IsVisible="{TemplateBinding Parent.RightButtonVisible}"
+                        Style="{StaticResource OK}"
+                        Text="{TemplateBinding Parent.RightButtonTitle}" />
+                </Grid>
+                <!--  Bottom Buttons  -->
+
+            </Grid>
+
+        </Grid>
+
+    </ControlTemplate>
+
+    <ControlTemplate xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" x:Key="StandardLayoutTemplateNoScroll">
+        <Grid>
+            <!--  Refreshing Message  -->
+            <VerticalStackLayout
+            Margin="0,200,0,0"
+            HorizontalOptions="FillAndExpand"
+            IsVisible="{TemplateBinding Parent.IsRefreshing}"
+            VerticalOptions="FillAndExpand">
+
+                <Label
+                Margin="10"
+                FontAttributes="Bold"
+                FontSize="30"
+                HorizontalOptions="FillAndExpand"
+                HorizontalTextAlignment="Center"
+                Text="{TemplateBinding Parent.IndicatorMsg}" />
+                <ActivityIndicator IsRunning="{TemplateBinding Parent.IsRefreshing}" />
+            </VerticalStackLayout>
+            <!--  Refreshing Message  -->
+            <Grid IsVisible="{TemplateBinding Parent.IsRefreshing, Converter={StaticResource GNotBoolValue}}">
+                <!--  Scroll View  -->
+        
+                    <!--  Content  -->
+                    <VerticalStackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <ContentPresenter />
+                        <!--  Header and match info  -->
+                    </VerticalStackLayout>
+                    <!--  Content  -->
+        
+                <!--  Bottom Buttons  -->
+                <Grid
+                Margin="10"
+                BackgroundColor="{StaticResource Gray100}"
+                ColumnDefinitions="50*,50*"
+                HorizontalOptions="FillAndExpand"
+                IsVisible="{TemplateBinding Parent.FooterVisible}"
+                RowDefinitions="Auto"
+                VerticalOptions="EndAndExpand">
+
+                    <Button
+                    x:Name="template_no_scroll_button1"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="5"
+                    Command="{TemplateBinding Parent.LeftButtonCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    IsEnabled="{TemplateBinding Parent.IsRefreshing,
+                                                Converter={StaticResource GNotBoolValue}}"
+                    IsVisible="{TemplateBinding Parent.LeftButtonVisible}"
+                    Style="{StaticResource Cancel}"
+                    Text="{TemplateBinding Parent.LeftButtonTitle}" />
+                    <Button
+                    x:Name="template_no_scroll_button2"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="5"
+                    Command="{TemplateBinding Parent.RightButtonCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    IsEnabled="{TemplateBinding Parent.IsRefreshing,
+                                                Converter={StaticResource GNotBoolValue}}"
+                    IsVisible="{TemplateBinding Parent.RightButtonVisible}"
+                    Style="{StaticResource OK}"
+                    Text="{TemplateBinding Parent.RightButtonTitle}" />
+                </Grid>
+                <!--  Bottom Buttons  -->
+
+            </Grid>
+
+        </Grid>
+    </ControlTemplate>
+</ResourceDictionary>

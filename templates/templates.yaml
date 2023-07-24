@@ -1,0 +1,324 @@
+# resource templates
+- name: App
+  template_file: App.xaml.cs
+  output: App.xaml.cs
+  process_template: true
+  name_space: ""
+  inject_tag: ""
+  backup: true
+
+- name: App
+  template_file: App.xaml
+  output: App.xaml
+  process_template: true
+  name_space: ""
+  inject_tag: ""
+  backup: true
+
+- name: Styles
+  template_file: Resources/Styles/Colors.xaml
+  output: Resources/Styles/Colors.xaml
+  process_template: false
+  name_space: ""
+  inject_tag: ""
+  backup: true
+
+- name: Styles
+  template_file: Resources/Styles/Styles.xaml
+  output: Resources/Styles/Styles.xaml
+  process_template: false
+  name_space: ""
+  inject_tag: ""
+  backup: true
+
+- name: Edit_icon
+  template_file: Resources/Images/edit.svg
+  output: Resources/Images/edit.svg
+  process_template: false
+  name_space: ""
+  inject_tag: ""
+  backup: true
+
+- name: Delete_icon
+  template_file: Resources/Images/delete.svg
+  output: Resources/Images/delete.svg
+  process_template: false
+  name_space: ""
+  inject_tag: ""
+  backup: true
+
+- name: GlobalUsings
+  template_file: GlobalUsings.cs
+  output: GlobalUsings.cs
+  process_template: true
+  name_space: ""
+  inject_tag: ""
+  backup: true
+
+- name: AppShell
+  template_file: AppShell.xaml.cs
+  output: AppShell.xaml.cs
+  process_template: true
+  name_space: ""
+  inject_tag: "//<%REGISTER_ROUTE%>"
+  backup: true
+
+- name: MauiProgram
+  template_file: MauiProgram.cs
+  output: MauiProgram.cs
+  process_template: true
+  name_space: ""
+  inject_tag: "//<%REGISTER_SINGLETON%>"
+  backup: true
+
+- name: Enums
+  template_file: Enums/Enums.cs
+  output: Enums/Enums.cs
+  process_template: true
+  name_space: "Enums"
+
+- name: DBConstants
+  template_file: Globals/DBConstants.cs
+  output: Globals/DBConstants.cs
+  process_template: true
+  name_space: "Globals"
+
+- name: IEntity
+  template_file: Interfaces/IEntity.cs
+  output: Interfaces/IEntity.cs
+  process_template: true
+  name_space: "Interfaces"
+
+- name: GenericModelDB
+  template_file: Services/GenericModelDB.cs
+  output: Services/GenericModelDB.cs
+  name_space: "Services"
+  process_template: true
+  depends_on:
+    - DBConstants
+
+- name: OrientationMessage
+  template_file: Messages/RequestedOrientationMessage.cs
+  output: Messages/RequestedOrientationMessage.cs
+  name_space: "Messages"
+  process_template: true
+  depends_on:
+    - Enums
+  
+- name: LocString
+  template_file: MarkupExtensions/LocString.cs
+  output: MarkupExtensions/LocString.cs
+  name_space: "MarkupExtensions"
+  process_template: true
+
+- name: EventToCommandBehavior
+  template_file: Helper/EventToCommandBehavior.cs
+  output: Helper/EventToCommandBehavior.cs
+  name_space: "Helper"
+  process_template: true
+
+- name: IAlertService
+  template_file: Helper/IAlertService.cs
+  output: Helper/IAlertService.cs
+  name_space: "Helper"
+  register_singleton: "IAlertService, AlertService"
+  process_template: true
+
+- name: BaseViewModel
+  template_file: ViewModels/BaseViewModel.cs
+  output: ViewModels/BaseViewModel.cs
+  name_space: "ViewModels"
+  process_template: true
+
+- name: StandardContentPage
+  template_file: Views/StandardContentPage_Template.cs
+  output: Views/StandardContentPage.cs
+  name_space: "Views"
+  process_template: true
+
+- name: StandardContentPage
+  template_file: Resources/ControlTemplate/StandardLayoutTemplate.xaml
+  output: Resources/ControlTemplate/StandardLayoutTemplate.xaml
+  name_space: "Views"
+  process_template: true
+
+- name: MainPage
+  template_file: Views/MainPage.xaml
+  output: Views/MainPage.xaml
+  name_space: "Views"
+  process_template: true
+
+- name: MainPage
+  template_file: Views/MainPage.xaml.cs
+  output: Views/MainPage.xaml.cs
+  name_space: "Views"
+  process_template: true
+  register_singleton: "MainPage"
+
+- name: MainPage
+  template_file: ViewModels/MainViewModel.cs
+  output: ViewModels/MainViewModel.cs
+  name_space: "ViewModels"
+  process_template: true
+  register_singleton: "MainViewModel"
+
+- name: NumInput
+  template_file: Controls/NumInput.xaml.cs
+  output: Controls/NumInput.xaml.cs
+  name_space: "Controls"
+  process_template: true
+
+- name: NumInput
+  template_file: Controls/NumInput.xaml
+  output: Controls/NumInput.xaml
+  name_space: "Controls"
+  process_template: true
+
+
+# Schema Templates
+- name: Model_Template
+  template_file: Models/Model_Template.cs
+  output: Models/{{.Schema.FuncName}}Model.cs
+  name_space: "Models"
+  process_template: true
+  schema_template: true
+  register_singleton: "{{.Schema.FuncName}}Model"
+  depends_on:
+    - IEntity
+
+- name: IModel_Template
+  template_file: Interfaces/IModel_Template.cs
+  output: Interfaces/I{{.Schema.FuncName}}.cs
+  name_space: "Interfaces"
+  process_template: true
+  schema_template: true
+
+- name: ModelDB_Template
+  template_file: Services/ModelDB_Template.cs
+  output: Services/{{.Schema.FuncName}}ModelDB.cs
+  name_space: "Services"
+  process_template: true
+  schema_template: true
+  register_singleton: "{{.Schema.FuncName}}ModelDB"
+  depends_on:
+    - IEntity
+    - GenericModelDB
+    - Model_Template
+
+- name: DataChangedMessage_Template
+  template_file: Messages/DataChangedMessage_Template.cs
+  output: Messages/{{.Schema.FuncName}}ChangedMessage.cs
+  name_space: "Messages"
+  process_template: true
+  schema_template: true
+
+- name: ListView
+  template_file: ViewModels/ListViewModel_Template.cs
+  output: ViewModels/{{.Schema.FuncName}}ListViewModel.cs
+  name_space: "ViewModels"
+  process_template: true
+  schema_template: true
+  register_singleton: "{{.Schema.FuncName}}ListViewModel"
+  depends_on:
+    - ModelDB_Template
+    - BaseViewModel
+    - IAlertService
+    - Edit_icon
+    - Delete_icon
+
+- name: ListView
+  template_file: Views/ListPage_Template.xaml
+  output: Views/{{.Schema.FuncName}}ListPage.xaml
+  name_space: "Views"
+  process_template: true
+  schema_template: true
+  depends_on:
+    - ModelDB_Template
+
+- name: ListView
+  template_file: Views/ListPage_Template.xaml.cs
+  output: Views/{{.Schema.FuncName}}ListPage.xaml.cs
+  name_space: "Views"
+  process_template: true
+  schema_template: true
+  register_singleton: "{{.Schema.FuncName}}ListPage"
+  register_route: "{{.Schema.FuncName}}ListPage"
+  depends_on:
+    - ModelDB_Template
+    - EditView
+    - DetailsView
+    - StandardContentPage
+    - OrientationMessage
+
+
+- name: EditView
+  template_file: ViewModels/EditViewModel_Template.cs
+  output: ViewModels/{{.Schema.FuncName}}EditViewModel.cs
+  name_space: "ViewModels"
+  process_template: true
+  schema_template: true
+  register_singleton: "{{.Schema.FuncName}}EditViewModel"
+  depends_on:
+    - Model_Template
+    - BaseViewModel
+    - IAlertService
+    - NumInput
+
+- name: EditView
+  template_file: Views/EditPage_Template.xaml
+  output: Views/{{.Schema.FuncName}}EditPage.xaml
+  name_space: "Views"
+  process_template: true
+  schema_template: true
+  depends_on:
+    - Model_Template
+
+- name: EditView
+  template_file: Views/EditPage_Template.xaml.cs
+  output: Views/{{.Schema.FuncName}}EditPage.xaml.cs
+  name_space: "Views"
+  process_template: true
+  schema_template: true
+  register_singleton: "{{.Schema.FuncName}}EditPage"
+  register_route: "{{.Schema.FuncName}}EditPage"
+  depends_on:
+    - Model_Template
+    - DataChangedMessage_Template
+    - StandardContentPage
+    - OrientationMessage
+
+- name: DetailsView
+  template_file: ViewModels/DetailsViewModel_Template.cs
+  output: ViewModels/{{.Schema.FuncName}}DetailsViewModel.cs
+  name_space: "ViewModels"
+  process_template: true
+  schema_template: true
+  register_singleton: "{{.Schema.FuncName}}DetailsViewModel"
+  depends_on:
+    - Model_Template
+    - BaseViewModel
+    - IAlertService
+
+
+- name: DetailsView
+  template_file: Views/DetailsPage_Template.xaml
+  output: Views/{{.Schema.FuncName}}DetailsPage.xaml
+  name_space: "Views"
+  process_template: true
+  schema_template: true
+  depends_on:
+    - Model_Template
+
+- name: DetailsView
+  template_file: Views/DetailsPage_Template.xaml.cs
+  output: Views/{{.Schema.FuncName}}DetailsPage.xaml.cs
+  name_space: "Views"
+  process_template: true
+  schema_template: true
+  register_singleton: "{{.Schema.FuncName}}DetailsPage"
+  register_route: "{{.Schema.FuncName}}DetailsPage"
+  depends_on:
+    - Model_Template
+    - StandardContentPage
+    - OrientationMessage
+    

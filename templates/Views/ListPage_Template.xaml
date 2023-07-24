@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page:StandardContentPage
+    x:Class="{{.FullNS}}.{{.Schema.FuncName}}ListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:{{.RootNS}}.Models"
+    xmlns:page="clr-namespace:{{.RootNS}}.Views"
+    xmlns:vm="clr-namespace:{{.RootNS}}.ViewModels"
+    x:Name="this"
+    Title="List {{.Schema.FuncName}}"
+    x:DataType="vm:{{.Schema.FuncName}}ListViewModel"
+    IsRefreshing="{Binding IsRefreshing}"
+    LeftButtonCommand="{Binding CancelCommand}"
+    LeftButtonTitle="Cancel"
+    LeftButtonVisible="False"
+    MaximumWidthRequest="500"
+    RightButtonCommand="{Binding OkCommand}"
+    RightButtonTitle="Done"
+    RightButtonVisible="true"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+    <ContentView
+        ControlTemplate="{StaticResource StandardLayoutTemplateNoScroll}"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+
+        <VerticalStackLayout
+            Margin="5"
+            Padding="5"
+            BackgroundColor="{StaticResource Gray100}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <Label
+                Margin="0"
+                Padding="20"
+                BackgroundColor="{StaticResource Blue100Accent}"
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="{{.Schema.FuncName}} List" />
+            <!--  Start View Details  -->
+            <VerticalStackLayout
+                Margin="0,5,0,5"
+                Padding="5"
+                BackgroundColor="{StaticResource Gray200}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                <Button
+                    Margin="5"
+                    Command="{Binding Add{{.Schema.FuncName}}Command}"
+                    HorizontalOptions="Start"
+                    Text="Add {{.Schema.FuncName}}"
+                    VerticalOptions="FillAndExpand"
+                    WidthRequest="200" />
+                </VerticalStackLayout>
+                <CollectionView ItemsSource="{Binding Items}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="m:{{.Schema.FuncName}}Model">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            BackgroundColor="LightPink"
+                                            Command="{Binding Source={x:Reference this}, Path=BindingContext.Delete{{.Schema.FuncName}}Command}"
+                                            CommandParameter="{Binding .}"
+                                            IconImageSource="delete.svg" />
+                                        <SwipeItem
+                                            BackgroundColor="LightGreen"
+                                            Command="{Binding Source={x:Reference this}, Path=BindingContext.Edit{{.Schema.FuncName}}Command}"
+                                            CommandParameter="{Binding .}"
+                                            IconImageSource="edit.svg" />
+
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <VerticalStackLayout 
+                                    Margin="5"
+                                    Padding="10"
+                                    BackgroundColor="{StaticResource Gray50}"
+                                    HorizontalOptions="FillAndExpand"
+                                    MinimumHeightRequest="60"
+                                    VerticalOptions="FillAndExpand">
+                                    <VerticalStackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Path=BindingContext.{{.Schema.FuncName}}DetailsCommand, Source={x:Reference this}}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="2" />
+                                    </VerticalStackLayout.GestureRecognizers>
+                                    {{if .Schema.FlagExists `ListView_DISPLAY_PROPERTY`}}
+                                        <Label FontSize="Default" Text="{Binding {{.Schema.GetFlagParam `ListView_DISPLAY_PROPERTY` 0 }}}" />
+                                    {{else}}
+                                        {{range $field := .Schema.Fields}}{{if $field.NoFlag `ListView_EXCLUDE`}}<HorizontalStackLayout>
+                                        <Label FontAttributes="Bold" Text="{{camel $field.Name}}: " />
+                                        {{if ($field.FlagExists `RELATIONSHIP`)}}
+                                        <Label
+                                            BackgroundColor="{StaticResource Gray50}"
+                                            FontSize="Default"
+                                            Text="{Binding {{$field.PubVarName}}.{{pub_var_name ($field.GetFlagParam `RELATIONSHIP` 1)}}}" />
+                                        {{else}}
+                                        <Label
+                                            BackgroundColor="{StaticResource Gray50}"
+                                            FontSize="Default"
+                                            Text="{Binding {{$field.PubVarName}}}" />
+                                        {{end}}
+                                        </HorizontalStackLayout>
+                                        {{end}}{{end}}
+                                    {{end}}
+                                    
+                                </VerticalStackLayout>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            <!--  Start View Details  -->
+
+
+        </VerticalStackLayout>
+
+    </ContentView>
+</page:StandardContentPage>

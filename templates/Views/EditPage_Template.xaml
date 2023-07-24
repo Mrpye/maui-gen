@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page:StandardContentPage
+    x:Class="{{.FullNS}}.{{.Schema.FuncName}}EditPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:{{.RootNS}}.Models"
+    xmlns:page="clr-namespace:{{.RootNS}}.Views"
+    xmlns:controls="clr-namespace:{{.RootNS}}.Controls"
+    xmlns:vm="clr-namespace:{{.RootNS}}.ViewModels"
+    x:Name="{{.Schema.FuncName}}Page"
+    Title="Edit {{.Schema.FuncName}}"
+    x:DataType="vm:{{.Schema.FuncName}}EditViewModel"
+    IsRefreshing="false"
+    LeftButtonVisible="True"
+    RightButtonVisible="True"
+    MaximumWidthRequest="500"
+    LeftButtonCommand="{Binding CancelCommand}"
+    RightButtonCommand="{Binding SaveCommand}"
+    RightButtonTitle="Save"
+    LeftButtonTitle="Cancel"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+    <ContentView
+        ControlTemplate="{StaticResource StandardLayoutTemplate}"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+
+        <VerticalStackLayout
+            Margin="5"
+            Padding="5"
+            BackgroundColor="{StaticResource Gray100}">
+            <Label
+                Margin="0"
+                Padding="20"
+                BackgroundColor="{StaticResource Blue100Accent}"
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Edit {{.Schema.FuncName}}" />
+            {{range $field := .Schema.Fields}}{{if $field.NoFlag `EditView_EXCLUDE`}}
+            <VerticalStackLayout
+                Margin="5"
+                Padding="10"
+                BackgroundColor="{StaticResource Gray50}">
+                <Label
+                    FontAttributes="Bold"
+                    Padding="0,0,0,10"
+                    TextColor="{StaticResource Gray500}" 
+                    Text="{{display $field.Name}}" />
+
+                <Label
+                    FontSize="12"
+                    Padding="0,0,0,10"
+                    IsVisible="{Binding {{$field.PubVarName}}_error, Converter={StaticResource GNotEmpty}}"
+                    Text="{Binding {{$field.PubVarName}}_error}"
+                    TextColor="Red" />
+                {{if eq $field.Type "string"}}
+                {{if $field.FlagExists `EditView_PICKER`}}<Picker
+                BackgroundColor="{StaticResource White}"
+                {{if $field.FlagExists `EditView_PICKER`}}{{if eq ($field.GetFlagParam `EditView_PICKER` 0) "list"}}SelectedItem="{Binding Edit_item.{{$field.PubVarName}}}">{{$data_type := pub_var_name ($field.GetFlagParam `EditView_PICKER` 1)}}
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:{{$data_type}}}">
+                        {{range $data := ($field.GetOpt `EditView_PICKER`).data}}<x:{{$data_type}}>{{$data}}</x:{{$data_type}}>
+                        {{end}}</x:Array>
+                    </Picker.ItemsSource>
+                {{end}}{{end}}</Picker>
+                {{else if $field.FlagExists `EditView_EDITOR`}}
+                <Editor 
+                    FontSize="18" 
+                    BackgroundColor="{StaticResource White}"
+                    AutoSize="TextChanges"
+                    Text="{Binding Edit_item.{{$field.PubVarName}}}" />
+                {{else}}
+                <Entry 
+                    FontSize="18" 
+                    BackgroundColor="{StaticResource White}"
+                    Text="{Binding Edit_item.{{$field.PubVarName}}}" />
+                {{end}}
+                {{else if ($field.FlagExists `RELATIONSHIP`)}}
+                <HorizontalStackLayout>
+                    <Picker
+                        MinimumWidthRequest="200"
+                        HorizontalOptions="StartAndExpand"
+                        BackgroundColor="{StaticResource White}"
+                        ItemDisplayBinding="{Binding {{$field.GetFlagParam `RELATIONSHIP` 1}}}"
+                        ItemsSource="{Binding {{pub_var_name ($field.GetFlagParam `RELATIONSHIP` 0)}}_items}"
+                        SelectedItem="{Binding Edit_item.{{pub_var_name ($field.GetFlagParam `RELATIONSHIP` 0)}} , Mode=TwoWay}" >
+                    </Picker>
+                    <Button
+                        Margin="5"
+                        Command="{Binding Add{{func_name ($field.GetFlagParam `RELATIONSHIP` 0)}}Command}"
+                        HorizontalOptions="End"
+                        Text="+"
+                        VerticalOptions="FillAndExpand"
+                        WidthRequest="40" />
+                </HorizontalStackLayout> 
+                {{else if $field.FlagExists `EditView_TIME`}}
+                {{if $field.FlagExists `EditView_DATE`}}
+                <DatePicker  
+                    Date="{Binding Edit_item.{{$field.PubVarName}}}" />
+                {{end}}
+                <TimePicker  
+                    Time="{Binding Edit_item.{{$field.PubVarName}}}" />
+                
+                {{else if $field.FlagExists `EditView_DATE`}}
+                <DatePicker 
+                    Time="{Binding Edit_item.{{$field.PubVarName}}}" />
+                {{if $field.FlagExists `EditView_TIME`}}
+                <TimePicker  
+                    Time="{Binding Edit_item.{{$field.PubVarName}}}" />
+                    {{end}}
+                {{else if eq $field.Type "DateTime"}}
+                <DatePicker 
+                    Date="{Binding Edit_item.{{$field.PubVarName}}}" />
+                {{if $field.FlagExists `EditView_TIME`}}
+                <TimePicker  
+                    Time="{Binding Edit_item.{{$field.PubVarName}}}" />
+                {{end}}
+                {{else if eq $field.Type "bool"}}
+                <Switch HorizontalOptions="Start" IsToggled="{Binding Edit_item.{{$field.PubVarName}}}" />
+                {{else}}
+                <controls:NumInput
+                    {{if $field.FlagExists `EditView_NUM_RANGE`}}
+                    MinValue="{{$field.GetFlagParam `EditView_NUM_RANGE` 0 }}"
+                    MaxValue="{{$field.GetFlagParam `EditView_NUM_RANGE` 1 }}"
+                    {{else}}
+                    MinValue="0"
+                    MaxValue="100"
+                    {{end}}
+                    BackgroundColor="{StaticResource Gray50}"
+                    Value="{Binding Edit_item.{{$field.PubVarName}}}" />
+                {{end}}
+            </VerticalStackLayout>
+            {{end}}{{end}}
+        </VerticalStackLayout>
+
+    </ContentView>
+</page:StandardContentPage>

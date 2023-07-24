@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<page:StandardContentPage
+    x:Class="{{.FullNS}}.{{.Schema.FuncName}}DetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:m="clr-namespace:{{.RootNS}}.Models"
+    xmlns:page="clr-namespace:{{.RootNS}}.Views"
+    xmlns:vm="clr-namespace:{{.RootNS}}.ViewModels"
+    x:Name="{{.Schema.FuncName}}Page"
+    Title="Edit {{.Schema.FuncName}}"
+    x:DataType="vm:{{.Schema.FuncName}}DetailsViewModel"
+    IsRefreshing="false"
+    LeftButtonVisible="False"
+    RightButtonVisible="True"
+    MaximumWidthRequest="500"
+    RightButtonCommand="{Binding CancelCommand}"
+    RightButtonTitle="Ok"
+    LeftButtonTitle="Cancel"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+    <ContentView
+        ControlTemplate="{StaticResource StandardLayoutTemplate}"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+
+        <VerticalStackLayout
+            Margin="5"
+            Padding="5"
+            BackgroundColor="{StaticResource Gray100}">
+            
+            <Label
+                Margin="0"
+                Padding="20"
+                BackgroundColor="{StaticResource Blue100Accent}"
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="{{.Schema.FuncName}} Details" />
+            {{range $field := .Schema.Fields}}{{if $field.NoFlag `DetailView_EXCLUDE`}}
+            <VerticalStackLayout
+                Margin="5"
+                Padding="10"
+                BackgroundColor="{StaticResource Gray50}">
+                <Label
+                    FontAttributes="Bold" 
+                    TextColor="{StaticResource Gray500}" 
+                    Text="{{display $field.Name}}" />
+                <Label FontSize="18" Text="{Binding Item.{{$field.PubVarName}}}" />
+            </VerticalStackLayout>
+            {{end}}{{end}}
+        </VerticalStackLayout>
+
+    </ContentView>
+</page:StandardContentPage>

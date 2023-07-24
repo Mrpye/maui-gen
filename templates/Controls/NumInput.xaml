@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="{{.FullNS}}.NumInput"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="num_input">
+    <Grid
+        ColumnDefinitions="auto,40,40,100*"
+        ColumnSpacing="5"
+        HorizontalOptions="FillAndExpand"
+        RowDefinitions="Auto"
+        RowSpacing="5">
+
+        <Label
+            Grid.Column="0"
+            Padding="10"
+            Background="{StaticResource Gray50}"
+            HorizontalOptions="StartAndExpand"
+            HorizontalTextAlignment="Start"
+            MaximumWidthRequest="100"
+            MinimumWidthRequest="20"
+            Text="{Binding Value, Source={Reference num_input}}"
+            VerticalOptions="FillAndExpand"
+            VerticalTextAlignment="Center" />
+        <Button
+            Grid.Column="1"
+            Clicked="Button_Clicked"
+            FontAttributes="Bold"
+            Text="+" />
+        <Button
+            Grid.Column="2"
+            Clicked="Button_Clicked_1"
+            FontAttributes="Bold"
+            Text="-" />
+        <Slider
+            Grid.Column="3"
+            IsVisible="{Binding SliderVisible, Source={Reference num_input}}"
+            Maximum="{Binding MaxValue, Source={Reference num_input}}"
+            Minimum="0"
+            MinimumWidthRequest="30"
+            ValueChanged="OnSliderValueChanged"
+            Value="{Binding Value, Source={Reference num_input}}" />
+    </Grid>
+</ContentView>

@@ -1,0 +1,290 @@
+name_space: "DemoMauiApp"
+resources:
+  - App
+  - Enums
+  - AppShell
+  - MauiProgram
+  - GlobalUsings
+  - Styles
+  - MainPage
+
+schemas:
+  - name: person
+    flags:
+      - name: "ListView_DISPLAY_PROPERTY:Full_name" #Use the Full_name as the display value for the ListView and not the fields
+
+    #We only need to add the ListView because EditView and DetailsView are a dependance of ListView
+    templates:
+      - ListView
+
+    #Read only fields
+    read_only:
+      - name: full_name
+        type: string
+        init_value: '$"{First_name},{Last_name}"'
+      - name: address
+        type: string
+        init_value: '$"({House_number}) {Address_line_1}, {Address_line_2}, {Province_state_region},{Post_code}"'
+
+    #Fields
+    fields:
+      - name: id
+        type: int
+        primary_key: true
+        flags:
+          - name: "EditView_EXCLUDE" #Exclude id from EditView
+          - name: "DetailView_EXCLUDE" #Exclude id from EditView
+
+      - name: first_name
+        type: string
+        constructor: true
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:1"
+          - name: "VALIDATE_MaxLength:30"
+        notify_property:
+          - full_name
+
+      - name: last_name
+        type: string
+        constructor: true
+        notify_property:
+          - full_name
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:1"
+          - name: "VALIDATE_MaxLength:30"
+
+      - name: sex
+        type: string
+        constructor: true
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "EditView_PICKER:list,string"
+            options:
+              data:
+                - M
+                - F
+
+      - name: pet
+        type: object
+        constructor: false
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "RELATIONSHIP:pet,Animal_details"
+
+      - name: team
+        type: object
+        constructor: false
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "RELATIONSHIP:team,Team_details"
+
+      - name: age
+        type: int
+        constructor: true
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "EditView_NUM_RANGE:0,150"
+
+      - name: house_number
+        type: string
+        constructor: true
+        notify_property:
+          - address
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:1"
+          - name: "VALIDATE_MaxLength:20"
+
+      - name: address_line_1
+        type: string
+        constructor: true
+        notify_property:
+          - address
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:1"
+          - name: "VALIDATE_MaxLength:60"
+
+      - name: address_line_2
+        type: string
+        constructor: true
+        notify_property:
+          - address
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:1"
+          - name: "VALIDATE_MaxLength:60"
+
+      - name: city
+        type: string
+        constructor: true
+        notify_property:
+          - address
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:1"
+          - name: "VALIDATE_MaxLength:40"
+
+      - name: province_state_region
+        type: string
+        constructor: true
+        notify_property:
+          - address
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:1"
+          - name: "VALIDATE_MaxLength:50"
+
+      - name: post_code
+        type: string
+        constructor: true
+        notify_property:
+          - address
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:1"
+          - name: "VALIDATE_MaxLength:12"
+
+      - name: selected
+        type: bool
+        constructor: false
+
+  - name: pet
+
+    templates:
+      - ListView
+
+    # Read-only fields
+    read_only:
+      - name: animal_details
+        type: string
+        init_value: '$"{Name} is a {Animal}"'
+
+    # Fields
+    fields:
+      - name: id
+        type: int
+        primary_key: true
+        flags:
+          - name: "EditView_EXCLUDE" #Exclude id from EditView
+          - name: "DetailView_EXCLUDE" #Exclude id from EditView
+          - name: "ListView_EXCLUDE" #Exclude id from EditView
+
+      - name: name
+        type: string
+        constructor: true
+        notify_property:
+          - animal_details
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:2"
+          - name: "VALIDATE_MaxLength:20"
+
+      - name: animal
+        type: string
+        constructor: true
+        notify_property:
+          - animal_details
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:2"
+          - name: "VALIDATE_MaxLength:20"
+
+      - name: age
+        type: int
+        constructor: true
+        flags:
+          - name: "EditView_NUM_RANGE:0,100"
+          - name: "VALIDATE_Required"
+
+  - name: todo
+
+    templates:
+      - ListView
+
+    # Read-only fields
+    read_only:
+      - name: todo_details
+        type: string
+        init_value: '$"{Task} is a {Description}"'
+
+    # Fields
+    fields:
+      - name: id
+        type: int
+        primary_key: true
+        flags:
+          - name: "EditView_EXCLUDE" #Exclude id from EditView
+          - name: "DetailView_EXCLUDE" #Exclude id from EditView
+          - name: "ListView_EXCLUDE" #Exclude id from EditView
+
+      - name: task
+        type: string
+        constructor: true
+        notify_property:
+          - todo_details
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:2"
+          - name: "VALIDATE_MaxLength:20"
+
+      - name: description
+        type: string
+        constructor: true
+        notify_property:
+          - todo_details
+        flags:
+          - name: "EditView_EDITOR" #Exclude id from EditView
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:2"
+          - name: "VALIDATE_MaxLength:20"
+
+      - name: due_by
+        type: DateTime
+        constructor: true
+        init_value: =DateTime.Now
+        init_value_raw: true
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "EditView_DATE"
+          - name: "EditView_TIME"
+
+      
+
+  - name: team
+    templates:
+      - ListView
+
+    # Read-only fields
+    read_only:
+      - name: team_details
+        type: string
+        init_value: '$"{Name} with score {Score}"'
+
+    # Fields
+    fields:
+      - name: id
+        type: int
+        primary_key: true
+        flags:
+          - name: "EditView_EXCLUDE" #Exclude id from EditView
+          - name: "DetailView_EXCLUDE" #Exclude id from EditView
+          - name: "ListView_EXCLUDE" #Exclude id from EditView
+
+      - name: name
+        type: string
+        constructor: true
+        notify_property:
+          - team_details
+        flags:
+          - name: "VALIDATE_Required"
+          - name: "VALIDATE_MinLength:1"
+          - name: "VALIDATE_MaxLength:40"
+
+      - name: score
+        type: int
+        constructor: true
+        flags:
+          - name: "EditView_NUM_RANGE:0,100"
