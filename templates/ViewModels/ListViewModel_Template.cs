@@ -18,7 +18,7 @@ public partial class {{.Schema.FuncName}}ListViewModel : BaseViewModel
             //****************************************
             //Lets just get it to load the match model
             //****************************************
-            IsRefreshing = true;
+            //IsRefreshing = true;
 
         });
     }

@@ -216,7 +216,7 @@ MAUI App Accelerator will create the project
 
 - So that Maui-gen knows where to inject the route code it uses the following comment
 ```c#
-//<%REGISTER_ROUTE%
+//<%REGISTER_ROUTE%>
 ```
 
 
@@ -234,7 +234,7 @@ public partial class AppShell : Shell
 	{
 		InitializeComponent();
 
-        //<%REGISTER_ROUTE%
+        //<%REGISTER_ROUTE%>
     }
 }
 ```
@@ -287,7 +287,7 @@ public static class MauiProgram {
 
 ---
 
-### Use Maui-get to build the data forms using specified schema.
+### Use Maui-gen to build the data forms using specified schema.
 
 
 
@@ -325,7 +325,7 @@ maui-gen set output "C:\projects\Net\DemoMauiApp\DemoMauiApp"
 
 
 
-Under your home directory where the **Maui-get** templates are saved are some example schemas. we are going to set maui-gen to use one of these schemas.
+Under your home directory where the **Maui-gen** templates are saved are some example schemas. we are going to set maui-gen to use one of these schemas.
 
 ```bash
 maui-gen set schema "C:\Users\[user]\.maui-gen\examples\person_and_pet.yaml"
