@@ -44,7 +44,17 @@
                     FontAttributes="Bold" 
                     TextColor="{StaticResource Gray500}" 
                     Text="{{display $field.Name}}" />
-                <Label FontSize="18" Text="{Binding Item.{{$field.PubVarName}}}" />
+                {{if ($field.FlagExists `RELATIONSHIP`)}}
+                <Label
+                    BackgroundColor="{StaticResource Gray50}"
+                    FontSize="18"
+                    Text="{Binding Item.{{$field.PubVarName}}.{{pub_var_name ($field.GetFlagParam `RELATIONSHIP` 1)}}}" />
+                {{else}}
+                <Label
+                    BackgroundColor="{StaticResource Gray50}"
+                    FontSize="18"
+                    Text="{Binding Item.{{$field.PubVarName}}}" />
+                {{end}}
             </VerticalStackLayout>
             {{end}}{{end}}
         </VerticalStackLayout>

@@ -121,7 +121,7 @@ func Create(output_folder string) (*CodeGen, error) {
 	return cg, nil
 }
 
-func (m *CodeGen) Build(schema_path string, ns string) error {
+func (m *CodeGen) Build(template_path string, schema_path string, ns string) error {
 	//***************
 	//Load the schema
 	//***************
@@ -157,7 +157,7 @@ func (m *CodeGen) Build(schema_path string, ns string) error {
 			//*****************
 			//Load the template
 			//*****************
-			template_path := path.Join("templates", t.TemplateFile)
+			template_path := path.Join(template_path, t.TemplateFile)
 			tpl, err := lib.ReadFileToString(template_path)
 			if err != nil {
 				return err

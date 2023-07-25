@@ -470,6 +470,8 @@ This is just a proof of concept to see if it draws any attention if it does then
 - Embedded the template and examples (need to run maui-gen init all)
 - Updated the project structure
 
+### v0.1.2
+- Fix the template path not using parameters or config
 
 
 ---

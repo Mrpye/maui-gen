@@ -73,7 +73,7 @@ func buildCmd_Build() *cobra.Command {
 			//*****************
 			//Generate the code
 			//*****************
-			err = maui_gen.Build(schema_path, name_space)
+			err = maui_gen.Build(template_path, schema_path, name_space)
 			if err != nil {
 				return err
 			}
