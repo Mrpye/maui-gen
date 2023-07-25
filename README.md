@@ -66,7 +66,7 @@ Below are the steps required to install and configure maui-gen ready for use.
 >
 > To install Maui-gen run the command below 
 > ```yaml
-> go install github.com/Mrpye/Maui-Gen
+> go install github.com/Mrpye/maui-gen
 >```
 ><br>
 <br>
