@@ -60,30 +60,22 @@ Below are the tools you will need to create and build a .NET Maui application. T
 ## How to install 
 Below are the steps required to install and configure maui-gen ready for use.
 <details>
-<summary>1. Install maui-gen</summary>
+<summary>1. Install maui-gen</summary
 
-><br>
->
-> To install Maui-gen run the command below 
-> ```yaml
-> go install github.com/Mrpye/maui-gen
->```
-><br>
-<br>
+ To install Maui-gen run the command below 
+ ```yaml
+ go install github.com/Mrpye/maui-gen
+```
 
 </details>
 
 <details>
-<summary>2. Copy templates to the home directory</summary>
+<summary>2. Copy templates to the home directory</summary
 
-><br>
->
-> Run the command below, this will copy the templates to your home directory so that you can add your own customization and look at some data schema examples.
-> ```yaml
-> maui-gen init all
-> ```
-><br>
-<br>
+ Run the command below, this will copy the templates to your home directory so that you can add your own customization and look at some data schema examples.
+ ```yaml
+ maui-gen init all
+ ```
 
 </details>
 
@@ -99,209 +91,199 @@ Below will take you thought the steps needed to be performed so that the code ge
 First you will need to create a new project in Visual Studio using the **MAUI App Accelerator** this will install the required components and setup your project ready for **Maui-gen**. 
 
 <details>
-<summary>1. Create a new .Net Maui project in Visual Studio</summary>
+<summary>1. Create a new .Net Maui project in Visual Studio</summary
 
-><br>
->
->Open **Visual Studio** and create a new project this will start the project selection menu. 
-><br>
-<br>
+Open **Visual Studio** and create a new project this will start the project selection menu. 
+
 
 ![New Project](docs/img/new_project.png)
 
 </details>
 
 <details>
-<summary>2. Create project using MAUI App Accelerator </summary>
+<summary>2. Create project using MAUI App Accelerator </summary
 
-><br>
->
->Select the **MAUI App Accelerator** to start the project wizard.
-><br>
-<br>
+
+
+Select the **MAUI App Accelerator** to start the project wizard.
+
+
 
 ![App Accelerator](docs/img/app_accelerator.png)
 
 </details>
 
 <details>
-<summary>3. Configure the MAUI Project</summary>
+<summary>3. Configure the MAUI Project</summary
 
-><br>
->
->Enter the project name and solution name.
->- **Make a note of the path where the project will be created**
->- **Also solution Name this will be the namespace we will use later.**
-><br>
-<br>
+
+
+Enter the project name and solution name.
+- **Make a note of the path where the project will be created**
+- **Also solution Name this will be the namespace we will use later.**
+
+
 
 ![Configure Project](docs/img/configure_maui_app.png)
 
 </details>
 
 <details>
-<summary>4. Select the version of .NET to use</summary>
+<summary>4. Select the version of .NET to use</summary
 
-><br>
->
->Select the .NET version to use either .Net 6 or .NET 7. 
-><br>
-<br>
+
+
+Select the .NET version to use either .Net 6 or .NET 7. 
+
+
 
 ![.Net Version](docs/img/app_accelerator_net_version.png)
 
 </details>
 
 <details>
-<summary>5. Select MVVM Toolkit as the coding style</summary>
+<summary>5. Select MVVM Toolkit as the coding style</summary
 
-><br>
->
->Select the MVVM Toolkit
-><br>
-<br>
+
+
+Select the MVVM Toolkit
+
+
 
 ![Code Style](docs/img/app_accelerator_code_style.png)
 
 </details>
 
 <details>
-<summary>6. Select Flyout Menu for Navigation Style</summary>
+<summary>6. Select Flyout Menu for Navigation Style</summary
 
-><br>
->
->You can select Flyout or Tabs
-><br>
-<br>
+
+
+You can select Flyout or Tabs
+
+
 
 ![Navigation](docs/img/app_accelerator_nav.png)
 
 </details>
 
 <details>
-<summary>7. Click next on Pages</summary>
+<summary>7. Click next on Pages</summary
 
-><br>
->
->You can just click next on the pages.
-><br>
-<br>
+
+
+You can just click next on the pages.
+
+
 
 ![Pages](docs/img/app_accelerator_pages.png)
 
 </details>
 
 <details>
-<summary>8. Configure Features</summary>
+<summary>8. Configure Features</summary
 
-><br>
->
->Add the following libraries:
->- MAUI Community Toolkit
->- sqllite-net-pcl
-><br>
-<br>
+
+
+Add the following libraries:
+- MAUI Community Toolkit
+- sqllite-net-pcl
+
+
 
 ![Features](docs/img/app_accelerator_features.png)
 
 </details>
 
 <details>
-<summary>9. click Next to create the project</summary>
+<summary>9. click Next to create the project</summary
 
-><br>
->
->MAUI App Accelerator will create the project
-><br>
-<br>
+
+
+MAUI App Accelerator will create the project
+
+
 
 ![Solution Explorer](docs/img/solution_explorer.png)
 
 </details>
 
 <details>
-<summary>10. Add the route comment to the project</summary>
+<summary>10. Add the route comment to the project</summary
 
 
-><br>
->
->- So that Maui-gen knows where to inject the route code it uses the following comment
->```c#
->//<%REGISTER_ROUTE%>
->```
-><br>
-
-<br>
-
-><br>
-
->- You will need to add this to the file **AppShell.xaml.cs**<br>
->![AppShell](docs/img/app_shell.png)
-> - Add the comment just below the InitializeComponent and save changes.
->```c#
->public partial class AppShell : Shell
->{
->	public AppShell()
->	{
->		InitializeComponent();
->
->        //<%REGISTER_ROUTE%>
->    }
->}
->```
-><br>
 
 
-<br>
+- So that Maui-gen knows where to inject the route code it uses the following comment
+```c#
+//<%REGISTER_ROUTE%
+```
+
+
+
+
+
+
+- You will need to add this to the file **AppShell.xaml.cs**
+![AppShell](docs/img/app_shell.png)
+ - Add the comment just below the InitializeComponent and save changes.
+```c#
+public partial class AppShell : Shell
+{
+	public AppShell()
+	{
+		InitializeComponent();
+
+        //<%REGISTER_ROUTE%
+    }
+}
+```
+
+
+
+
 
 </details>
 
 
 <details>
-<summary>11. Add the singleton comment</summary>
+<summary>11. Add the singleton comment</summary
 
-><br>
->
->- So that Maui-gen knows where to inject the singleton code it uses the following comment
->```c#
->//<%REGISTER_SINGLETON%>
->```
-><br>
 
-<br>
 
-><br>
->
->- You will need to add this to the file **AppShell.xaml.cs**<br>
->![MauiProgram](docs/img/maui_program.png)
->-  Add the comment just below the **builder.Services.AddSingleton<MainViewModel>();** and save changes.
->```c#
->public static class MauiProgram {
->    public static MauiApp CreateMauiApp() {
->        var builder = MauiApp.CreateBuilder();
->        builder
->           .UseMauiApp<App>()
->            .UseMauiCommunityToolkit()
->            .ConfigureFonts(fonts => {
->                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
->                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
->            });
->
->        builder.Services.AddSingleton<MainViewModel>();
->
->       //<%REGISTER_SINGLETON%>
->
->        builder.Services.AddSingleton<MainPage>();
->
->        return builder.Build();
->    }
->}
->```
-><br>
+- So that Maui-gen knows where to inject the singleton code it uses the following comment
+```c#
+//<%REGISTER_SINGLETON%
+```
 
-<br>
+- You will need to add this to the file **AppShell.xaml.cs**
+![MauiProgram](docs/img/maui_program.png)
+-  Add the comment just below the **builder.Services.AddSingleton<MainViewModel();** and save changes.
+```c#
+public static class MauiProgram {
+    public static MauiApp CreateMauiApp() {
+        var builder = MauiApp.CreateBuilder();
+        builder
+           .UseMauiApp<App()
+            .UseMauiCommunityToolkit()
+            .ConfigureFonts(fonts = {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
+
+        builder.Services.AddSingleton<MainViewModel();
+
+       //<%REGISTER_SINGLETON%
+
+        builder.Services.AddSingleton<MainPage();
+
+        return builder.Build();
+    }
+}
+```
 
 </details>
+
 
 ---
 
@@ -310,108 +292,153 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 
 
 <details>
-<summary>1. Set the output directory</summary>
+<summary>1. Set the output directory</summary
 
-><br>
->
->First we need to tell **Maui-gen** where to output the generated code to.
->In this case we are pointing it to the **DemoMauiApp** created earlier.
->
->**Note!** Make sure it is the directory where all the code is, see below.
-><br>
-<br>
+
+
+First we need to tell **Maui-gen** where to output the generated code to.
+In this case we are pointing it to the **DemoMauiApp** created earlier.
+
+**Note!** Make sure it is the directory where all the code is, see below.
+
+
 
 ![MauiProgram](docs/img/project_folder.png)
 
-><br>
->
->Run the following command to set the output directory. 
->This is where Maui-gen will output the code to.
->
->**Adjust the path to point to your project.**
->
->```bash
->maui-gen set output "C:\projects\Net\DemoMauiApp\DemoMauiApp"
->```
-><br>
-<br>
+
+
+Run the following command to set the output directory. 
+This is where Maui-gen will output the code to.
+
+**Adjust the path to point to your project.**
+
+```bash
+maui-gen set output "C:\projects\Net\DemoMauiApp\DemoMauiApp"
+```
+
+
 
 </details>
 
 <details>
-<summary>2. Set the data schema to use</summary>
+<summary>2. Set the data schema to use</summary
 
-><br>
->
->Under your home directory where the **Maui-get** templates are saved are some example schemas. we are going to set maui-gen to use one of these schemas.
->
->```bash
->maui-gen set schema "C:\Users\[user]\.maui-gen\examples\person_and_pet.yaml"
->```
-><br>
-<br>
+
+
+Under your home directory where the **Maui-get** templates are saved are some example schemas. we are going to set maui-gen to use one of these schemas.
+
+```bash
+maui-gen set schema "C:\Users\[user]\.maui-gen\examples\person_and_pet.yaml"
+```
+
+
 
 </details>
 
  
 <details>
-<summary>3. Check the paths are correct</summary>
+<summary>3. Check the paths are correct</summary
 
-><br>
->
->You can check what paths are set by using the following command this will open the config file in notepad.
->
->```bash
->maui-gen set edit
->```
-><br>
-<br>
 
-</details>
 
-<details>
-<summary>3. Generate the code based on the data schema</summary>
+You can check what paths are set by using the following command this will open the config file in notepad.
 
-><br>
->
->Finally we are ready to generate the code you will need to pass in the project root namespace this is the ?> "solution name" you entered when creating the Maui project.
->
->you can also change the name space in the Data Schema file
->
->```yaml
->name_space: "DemoMauiApp"
->resources:
->  - App
->  - Enums
->  - AppShell
->  - MauiProgram
->```
->
->```bash
->maui-gen build --namespace "[solution name]"
->```
-><br>
-<br>
+```bash
+maui-gen set edit
+```
+
+
 
 </details>
 
 <details>
-<summary>4. Run the Maui Project</summary>
+<summary>4. Install Nuget Packages</summary
 
-><br>
->
->Now that the code has been generated your can goto you Visual studio and you will see lots of new folders and files have been created.
-><br>
-<br>
+You will need to install the following packages into the project.
+
+- Use the maui-gen install tool 
+
+```bash
+maui-gen nuget install --output [project_path]
+```
+
+- Or if you set the output using the **maui-gen set output** then you can just use
+
+```bash
+maui-gen nuget install
+```
+
+- Or add each package using the nuget install in Visual Studio
+
+```bash
+SQLitePCLRaw.core
+SQLitePCLRaw.bundle_green
+SQLitePCLRaw.provider.sqlite3
+SQLitePCLRaw.provider.dynamic_cdecl
+SQLiteNetExtensions
+SQLiteNetExtensions.Async
+
+```
+
+- Or open command prompt and cd to the project directory then paste the following code into the command prompt.
+  
+```bash
+cd C:\projects\Net\MauiGenDemoApp\MauiGenDemoApp
+
+dotnet add C:\projects\Net\MauiGenDemoApp\MauiGenDemoApp package SQLitePCLRaw.core
+dotnet add package SQLitePCLRaw.bundle_green
+dotnet add package SQLitePCLRaw.provider.sqlite3
+dotnet add package SQLitePCLRaw.provider.dynamic_cdecl
+dotnet add package SQLiteNetExtensions
+dotnet add package SQLiteNetExtensions.Async
+```
+
+
+</details>
+
+<details>
+<summary>5. Generate the code based on the data schema</summary
+
+
+
+Finally we are ready to generate the code you will need to pass in the project root namespace this is the ? "solution name" you entered when creating the Maui project.
+
+you can also change the name space in the Data Schema file
+
+```yaml
+name_space: "DemoMauiApp"
+resources:
+  - App
+  - Enums
+  - AppShell
+  - MauiProgram
+```
+
+```bash
+maui-gen build --namespace "[solution name]"
+```
+
+
+
+</details>
+
+<details>
+<summary>6. Run the Maui Project</summary
+
+
+
+Now that the code has been generated your can goto you Visual studio and you will see lots of new folders and files have been created.
+
+
 
 
 ![Generated Code](docs/img/generated_code.png)
 
-><br>
->
->You can now simple run the project and you should see.
-><br>
-<br>
+
+
+You can now simple run the project and you should see.
+
+
 
 #### Main Menu
 ![Menu](docs/img/project_menu.png)
@@ -437,7 +464,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ## Examples
 
 <details>
-<summary>Example Pictures</summary>
+<summary>Example Pictures</summary
 
 #### Main Menu
 ![Menu](docs/img/project_menu.png)
@@ -472,6 +499,9 @@ This is just a proof of concept to see if it draws any attention if it does then
 
 ### v0.1.2
 - Fix the template path not using parameters or config
+
+### v0.1.3
+- Added nuget package install cmd
 
 
 ---

@@ -51,7 +51,7 @@ func rootCmd_About() *cobra.Command {
 
 			lib.ActionLog("About", '-')
 			fmt.Println("Author: Andrew Pye")
-			fmt.Println("Version: 0.1.2")
+			fmt.Println("Version: 0.1.3")
 			fmt.Println("License: Apache")
 			return nil
 		},
