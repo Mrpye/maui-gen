@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/Mrpye/maui-gen/lib"
@@ -26,6 +27,9 @@ Example Command:
 - maui-gen gen_docs
 		`,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if !lib.DirExists("./documents") {
+				os.MkdirAll("./documents", os.ModePerm)
+			}
 			err := doc.GenMarkdownTree(rootCmd, "./documents")
 			if err != nil {
 				log.Fatal(err)
@@ -47,7 +51,7 @@ func rootCmd_About() *cobra.Command {
 
 			lib.ActionLog("About", '-')
 			fmt.Println("Author: Andrew Pye")
-			fmt.Println("Version: 0.1")
+			fmt.Println("Version: 0.1.0")
 			fmt.Println("License: Apache")
 			return nil
 		},
@@ -58,13 +62,11 @@ func rootCmd_About() *cobra.Command {
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "maui-gen",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Maui-Gen is a CLI tool to help build .Net Maui data forms from a schema",
+	Long: `Maui-Gen is a CLI tool to help build .Net Maui data forms from a schema.
+	Using template and a data schema you can configure required fields and Maui-Gen will
+	generate the code for you, saving time and effort.
+	`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -85,6 +87,8 @@ func Execute() {
 func init() {
 	SetupConfig()
 	rootCmd.AddCommand(rootCmd_About())
+	rootCmd.AddCommand(GenerateDoc())
+
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.

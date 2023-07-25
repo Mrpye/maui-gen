@@ -2,6 +2,7 @@ package lib
 
 import (
 	"archive/zip"
+	"embed"
 	"errors"
 	"fmt"
 	"io"
@@ -12,6 +13,56 @@ import (
 	"path/filepath"
 	"strconv"
 )
+
+func SaveEmbeddedFile(cfg *embed.FS, origin, dirName string) error {
+	files, err := cfg.ReadDir(origin)
+	if err != nil {
+		return err
+	}
+	if origin == "." {
+		origin = ""
+	}
+	dir_path := path.Join(dirName, origin)
+	if _, err := os.Stat(dir_path); os.IsNotExist(err) {
+		os.MkdirAll(dir_path, os.ModePerm)
+	}
+
+	for _, f := range files {
+		if f.Name() == "Model_Template.cs" {
+			fmt.Println(f.Name())
+		}
+		if f.IsDir() {
+			err := SaveEmbeddedFile(cfg, path.Join(origin, f.Name()), dirName)
+			if err != nil {
+				return err
+			}
+		} else {
+			if filepath.Ext(f.Name()) == ".go" {
+				continue
+			}
+			fileContent, err := cfg.ReadFile(path.Join(origin, f.Name()))
+			if err != nil {
+				return err
+			}
+			filename := path.Join(dirName, origin, f.Name())
+			fmt.Printf("Creating file %s\n", filename)
+			f, err := os.Create(filename)
+			if err != nil {
+				return err
+			}
+
+			if _, err := f.Write(fileContent); err != nil {
+				return err
+			}
+
+			err = f.Close()
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
 
 // zip  the folder
 func ZipFolder(ZipFile string, zipFolder string) {

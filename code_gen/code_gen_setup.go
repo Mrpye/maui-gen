@@ -5,7 +5,9 @@ import (
 	"os"
 	"path"
 
+	"github.com/Mrpye/maui-gen/examples"
 	"github.com/Mrpye/maui-gen/lib"
+	"github.com/Mrpye/maui-gen/templates"
 	"github.com/spf13/viper"
 )
 
@@ -30,11 +32,9 @@ func CopyTemplatesToHome() error {
 	//*********************************************
 	//Check the the templates exists and copy files
 	//*********************************************
-	if lib.DirExists("./templates") {
-		err := lib.CopyDir("./templates", maui_template_path)
-		if err != nil {
-			return fmt.Errorf("error copying examples %s", maui_template_path)
-		}
+	err := lib.SaveEmbeddedFile(&templates.FS, ".", maui_template_path)
+	if err != nil {
+		return err
 	}
 
 	//****************************************************
@@ -72,11 +72,9 @@ func CopyExamplesToHome() error {
 	//********************************************
 	//Check the the examples exists and copy files
 	//********************************************
-	if lib.DirExists("./examples") {
-		err := lib.CopyDir("./examples", maui_examples_path)
-		if err != nil {
-			return fmt.Errorf("error copying examples %s", maui_examples_path)
-		}
+	err := lib.SaveEmbeddedFile(&examples.FS, ".", maui_examples_path)
+	if err != nil {
+		return err
 	}
 
 	//*********************

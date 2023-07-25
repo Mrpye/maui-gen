@@ -19,6 +19,7 @@ Its not pretty or well polished but more of a proof of concept. If there is the 
 ---
 
 ## Warning 
+
 You can apply changes directly to a .net Maui project but at this point i would strongly advised to only do this on a newly created project,
 so that it does not break your hard work or make sure your project is back up so can restore it.
 
@@ -54,6 +55,7 @@ Below are the tools you will need to create and build a .NET Maui application. T
 - [SQLitePCLRaw.provider.dynamic_cdecl](https://www.nuget.org/packages/SQLitePCLRaw.provider.dynamic_cdecl)
 - [SQLiteNetExtensions](https://www.nuget.org/packages/SQLiteNetExtensions/)
 - [SQLiteNetExtensions.Async](https://www.nuget.org/packages/SQLiteNetExtensions.Async)
+
 
 ## How to install 
 Below are the steps required to install and configure maui-gen ready for use.
@@ -105,7 +107,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![New Project](img/new_project.png)
+![New Project](docs/img/new_project.png)
 
 </details>
 
@@ -118,7 +120,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![App Accelerator](img/app_accelerator.png)
+![App Accelerator](docs/img/app_accelerator.png)
 
 </details>
 
@@ -133,7 +135,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![Configure Project](img/configure_maui_app.png)
+![Configure Project](docs/img/configure_maui_app.png)
 
 </details>
 
@@ -146,7 +148,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![.Net Version](img/app_accelerator_net_version.png)
+![.Net Version](docs/img/app_accelerator_net_version.png)
 
 </details>
 
@@ -159,7 +161,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![Code Style](img/app_accelerator_code_style.png)
+![Code Style](docs/img/app_accelerator_code_style.png)
 
 </details>
 
@@ -172,7 +174,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![Navigation](img/app_accelerator_nav.png)
+![Navigation](docs/img/app_accelerator_nav.png)
 
 </details>
 
@@ -185,7 +187,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![Pages](img/app_accelerator_pages.png)
+![Pages](docs/img/app_accelerator_pages.png)
 
 </details>
 
@@ -200,7 +202,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![Features](img/app_accelerator_features.png)
+![Features](docs/img/app_accelerator_features.png)
 
 </details>
 
@@ -213,7 +215,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![Solution Explorer](img/solution_explorer.png)
+![Solution Explorer](docs/img/solution_explorer.png)
 
 </details>
 
@@ -234,7 +236,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 
 >- You will need to add this to the file **AppShell.xaml.cs**<br>
->![AppShell](img/app_shell.png)
+>![AppShell](docs/img/app_shell.png)
 > - Add the comment just below the InitializeComponent and save changes.
 >```c#
 >public partial class AppShell : Shell
@@ -271,7 +273,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 >
 >- You will need to add this to the file **AppShell.xaml.cs**<br>
->![MauiProgram](img/maui_program.png)
+>![MauiProgram](docs/img/maui_program.png)
 >-  Add the comment just below the **builder.Services.AddSingleton<MainViewModel>();** and save changes.
 >```c#
 >public static class MauiProgram {
@@ -319,7 +321,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 ><br>
 <br>
 
-![MauiProgram](img/project_folder.png)
+![MauiProgram](docs/img/project_folder.png)
 
 ><br>
 >
@@ -403,7 +405,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 <br>
 
 
-![Generated Code](img/generated_code.png)
+![Generated Code](docs/img/generated_code.png)
 
 ><br>
 >
@@ -412,14 +414,39 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 <br>
 
 #### Main Menu
-![Menu](img/project_menu.png)
+![Menu](docs/img/project_menu.png)
 
 #### Edit Person Form
-![Add Person](img/project_add_person.png)
+![Add Person](docs/img/project_add_person.png)
 
 #### List Person Form
-![Add Person](img/project_list_person.png)
+![Add Person](docs/img/project_list_person.png)
 
+
+</details>
+
+---
+
+## Documents
+
+* [maui-gen CLI documents](docs/maui-gen.md)
+
+
+---
+
+## Examples
+
+<details>
+<summary>Example Pictures</summary>
+
+#### Main Menu
+![Menu](docs/img/project_menu.png)
+
+#### Edit Person Form
+![Add Person](docs/img/project_add_person.png)
+
+#### List Person Form
+![Add Person](docs/img/project_list_person.png)
 
 </details>
 
@@ -437,7 +464,14 @@ This is just a proof of concept to see if it draws any attention if it does then
 ## History
 ### v0.1.0
 - First Release
-  
+- 
+### v0.1.1
+- Added CLI Doc
+- Embedded the template and examples (need to run maui-gen init all)
+- Updated the project structure
+
+
+
 ---
 
 ## License
