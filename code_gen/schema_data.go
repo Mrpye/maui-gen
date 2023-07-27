@@ -6,12 +6,24 @@ import (
 
 type Data struct {
 	RootNS            string
+	Templates         *[]Template
 	Template          *Template
 	RootSchema        *RootSchema
 	Schema            *Schema
 	NameSpaces        map[string]string
 	RegisterSingleton map[string]string
 	RegisterRoute     map[string]string
+	Data              Field
+}
+
+func (m *Data) GetTemplates(template_name string) []Template {
+	result := []Template{}
+	for _, t := range *m.Templates {
+		if strings.EqualFold(t.Name, template_name) {
+			result = append(result, t)
+		}
+	}
+	return result
 }
 
 func (m *Data) AddNamespace(value string) {

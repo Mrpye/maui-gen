@@ -67,14 +67,14 @@ schemas:
                 - F
 
       - name: pet
-        type: object
+        type: pet
         constructor: false
         flags:
           - name: "VALIDATE_Required"
           - name: "RELATIONSHIP:pet,Animal_details"
 
       - name: team
-        type: object
+        type: team
         constructor: false
         flags:
           - name: "VALIDATE_Required"

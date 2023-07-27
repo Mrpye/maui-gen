@@ -53,82 +53,8 @@
                     IsVisible="{Binding {{$field.PubVarName}}_error, Converter={StaticResource GNotEmpty}}"
                     Text="{Binding {{$field.PubVarName}}_error}"
                     TextColor="Red" />
-                {{if eq $field.Type "string"}}
-                {{if $field.FlagExists `EditView_PICKER`}}<Picker
-                BackgroundColor="{StaticResource White}"
-                {{if $field.FlagExists `EditView_PICKER`}}{{if eq ($field.GetFlagParam `EditView_PICKER` 0) "list"}}SelectedItem="{Binding Edit_item.{{$field.PubVarName}}}">{{$data_type := pub_var_name ($field.GetFlagParam `EditView_PICKER` 1)}}
-                    <Picker.ItemsSource>
-                        <x:Array Type="{x:Type x:{{$data_type}}}">
-                        {{range $data := ($field.GetOpt `EditView_PICKER`).data}}<x:{{$data_type}}>{{$data}}</x:{{$data_type}}>
-                        {{end}}</x:Array>
-                    </Picker.ItemsSource>
-                {{end}}{{end}}</Picker>
-                {{else if $field.FlagExists `EditView_EDITOR`}}
-                <Editor 
-                    FontSize="18" 
-                    BackgroundColor="{StaticResource White}"
-                    AutoSize="TextChanges"
-                    Text="{Binding Edit_item.{{$field.PubVarName}}}" />
-                {{else}}
-                <Entry 
-                    FontSize="18" 
-                    BackgroundColor="{StaticResource White}"
-                    Text="{Binding Edit_item.{{$field.PubVarName}}}" />
-                {{end}}
-                {{else if ($field.FlagExists `RELATIONSHIP`)}}
-                <HorizontalStackLayout>
-                    <Picker
-                        MinimumWidthRequest="200"
-                        HorizontalOptions="StartAndExpand"
-                        BackgroundColor="{StaticResource White}"
-                        ItemDisplayBinding="{Binding {{$field.GetFlagParam `RELATIONSHIP` 1}}}"
-                        ItemsSource="{Binding {{pub_var_name ($field.GetFlagParam `RELATIONSHIP` 0)}}_items}"
-                        SelectedItem="{Binding Edit_item.{{pub_var_name ($field.GetFlagParam `RELATIONSHIP` 0)}} , Mode=TwoWay}" >
-                    </Picker>
-                    <Button
-                        Margin="5"
-                        Command="{Binding Add{{func_name ($field.GetFlagParam `RELATIONSHIP` 0)}}Command}"
-                        HorizontalOptions="End"
-                        Text="+"
-                        VerticalOptions="FillAndExpand"
-                        WidthRequest="40" />
-                </HorizontalStackLayout> 
-                {{else if $field.FlagExists `EditView_TIME`}}
-                {{if $field.FlagExists `EditView_DATE`}}
-                <DatePicker  
-                    Date="{Binding Edit_item.{{$field.PubVarName}}}" />
-                {{end}}
-                <TimePicker  
-                    Time="{Binding Edit_item.{{$field.PubVarName}}}" />
-                
-                {{else if $field.FlagExists `EditView_DATE`}}
-                <DatePicker 
-                    Time="{Binding Edit_item.{{$field.PubVarName}}}" />
-                {{if $field.FlagExists `EditView_TIME`}}
-                <TimePicker  
-                    Time="{Binding Edit_item.{{$field.PubVarName}}}" />
-                    {{end}}
-                {{else if eq $field.Type "DateTime"}}
-                <DatePicker 
-                    Date="{Binding Edit_item.{{$field.PubVarName}}}" />
-                {{if $field.FlagExists `EditView_TIME`}}
-                <TimePicker  
-                    Time="{Binding Edit_item.{{$field.PubVarName}}}" />
-                {{end}}
-                {{else if eq $field.Type "bool"}}
-                <Switch HorizontalOptions="Start" IsToggled="{Binding Edit_item.{{$field.PubVarName}}}" />
-                {{else}}
-                <controls:NumInput
-                    {{if $field.FlagExists `EditView_NUM_RANGE`}}
-                    MinValue="{{$field.GetFlagParam `EditView_NUM_RANGE` 0 }}"
-                    MaxValue="{{$field.GetFlagParam `EditView_NUM_RANGE` 1 }}"
-                    {{else}}
-                    MinValue="0"
-                    MaxValue="100"
-                    {{end}}
-                    BackgroundColor="{StaticResource Gray50}"
-                    Value="{Binding Edit_item.{{$field.PubVarName}}}" />
-                {{end}}
+
+                {{load_field_tpl (tpl_path `Views/Editors.xml`) $field}}
             </VerticalStackLayout>
             {{end}}{{end}}
         </VerticalStackLayout>

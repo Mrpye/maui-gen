@@ -15,7 +15,7 @@ answer*.yaml
 # vendor/
 
 /output
-/documents
+
 config.json
 /export.zip
 

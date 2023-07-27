@@ -9,6 +9,13 @@ import (
 	"strings"
 )
 
+func NA(value string) string {
+	if value == "" {
+		return "N/A"
+	}
+	return value
+}
+
 func CheckValidUrl(host string) error {
 	if strings.Contains(strings.ToLower(host), "http://") || strings.Contains(strings.ToLower(host), "https://") {
 		return nil
@@ -38,7 +45,7 @@ func IsNumber(s string) bool {
 	return err == nil
 }
 
-//strip the schema from url
+// strip the schema from url
 func GetDomainOrIP(url_str string) string {
 	u, _ := url.Parse(url_str)
 	host, _, _ := net.SplitHostPort(u.Host)

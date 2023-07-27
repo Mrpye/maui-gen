@@ -16,6 +16,8 @@ import (
 
 type CodeGen struct {
 	Output_folder      string
+	template_path      string
+	current_data       *Data
 	Templates          []Template
 	requited_resources map[string]Template
 }
@@ -136,8 +138,8 @@ func (m *CodeGen) Build(template_path string, schema_path string, ns string) err
 	if ns != "" {
 		s.ProjectNameSpace = ns
 	}
-
-	current_data := &Data{
+	m.template_path = template_path
+	m.current_data = &Data{
 		RootNS:     s.ProjectNameSpace,
 		RootSchema: s,
 	}
@@ -150,10 +152,11 @@ func (m *CodeGen) Build(template_path string, schema_path string, ns string) err
 		//Get the template for the data model
 		//***********************************
 		template_results := m.GetTemplates(o.Templates)
+		m.current_data.Templates = &template_results
 		for _, t := range template_results {
 
 			fmt.Printf("Processing template %s for schema %s\n", t.TemplateFile, o.Name)
-			current_data.AddNamespace(t.NameSpace)
+			m.current_data.AddNamespace(t.NameSpace)
 			//*****************
 			//Load the template
 			//*****************
@@ -165,28 +168,28 @@ func (m *CodeGen) Build(template_path string, schema_path string, ns string) err
 			//*************************************
 			//Build the data model for the template
 			//*************************************
-			current_data.Template = &t
-			current_data.Schema = &o
+			m.current_data.Template = &t
+			m.current_data.Schema = &o
 
 			//*************************
 			//Parse the register params
 			//*************************
-			result_singleton_register, err := parseTemplate(t.RegisterSingleton, current_data)
+			result_singleton_register, err := m.parseTemplate(t.RegisterSingleton, m.current_data)
 			if err != nil {
 				return err
 			}
-			current_data.AddSingleton(result_singleton_register)
+			m.current_data.AddSingleton(result_singleton_register)
 
-			result_route_register, err := parseTemplate(t.RegisterRoute, current_data)
+			result_route_register, err := m.parseTemplate(t.RegisterRoute, m.current_data)
 			if err != nil {
 				return err
 			}
-			current_data.AddRoute(result_route_register)
+			m.current_data.AddRoute(result_route_register)
 
 			//******************
 			//Parse the template
 			//******************
-			result, err := parseTemplate(tpl, current_data)
+			result, err := m.parseTemplate(tpl, m.current_data)
 			if err != nil {
 				return err
 			}
@@ -194,7 +197,7 @@ func (m *CodeGen) Build(template_path string, schema_path string, ns string) err
 			//*********************
 			//Parse the output path
 			//*********************
-			new_path, err := parseTemplate(t.Output, current_data)
+			new_path, err := m.parseTemplate(t.Output, m.current_data)
 			if err != nil {
 				return err
 			}
@@ -227,7 +230,7 @@ func (m *CodeGen) Build(template_path string, schema_path string, ns string) err
 	})
 
 	for _, r := range res_list {
-		current_data.AddNamespace(r.NameSpace)
+		m.current_data.AddNamespace(r.NameSpace)
 	}
 	//*********************
 	//Process the Resources
@@ -242,30 +245,30 @@ func (m *CodeGen) Build(template_path string, schema_path string, ns string) err
 			if err != nil {
 				return err
 			}
-			current_data.RootNS = s.ProjectNameSpace
-			current_data.Template = &r
-			current_data.RootSchema = s
-			current_data.Schema = nil
+			m.current_data.RootNS = s.ProjectNameSpace
+			m.current_data.Template = &r
+			m.current_data.RootSchema = s
+			m.current_data.Schema = nil
 
 			//*************************
 			//Parse the register params
 			//*************************
-			result_singleton_register, err := parseTemplate(r.RegisterSingleton, current_data)
+			result_singleton_register, err := m.parseTemplate(r.RegisterSingleton, m.current_data)
 			if err != nil {
 				return err
 			}
-			current_data.AddSingleton(result_singleton_register)
+			m.current_data.AddSingleton(result_singleton_register)
 
-			result_route_register, err := parseTemplate(r.RegisterRoute, current_data)
+			result_route_register, err := m.parseTemplate(r.RegisterRoute, m.current_data)
 			if err != nil {
 				return err
 			}
-			current_data.AddRoute(result_route_register)
+			m.current_data.AddRoute(result_route_register)
 
 			//******************
 			//Parse the template
 			//******************
-			result, err := parseTemplate(tpl, current_data)
+			result, err := m.parseTemplate(tpl, m.current_data)
 			if err != nil {
 				return err
 			}
@@ -273,7 +276,7 @@ func (m *CodeGen) Build(template_path string, schema_path string, ns string) err
 			//*********************
 			//Parse the output path
 			//*********************
-			new_path, err := parseTemplate(r.Output, current_data)
+			new_path, err := m.parseTemplate(r.Output, m.current_data)
 			if err != nil {
 				return err
 			}
@@ -340,37 +343,72 @@ func (m *CodeGen) Build(template_path string, schema_path string, ns string) err
 	return nil
 }
 
-func parseTemplate(tpl string, data *Data) (string, error) {
+func (m *CodeGen) LoadTemplate(template string) string {
+	//*****************
+	//Read the template
+	//*****************
+	tpl, _ := lib.ReadFileToString(template)
+
+	result, _ := m.parseTemplate(tpl, m.current_data)
+	return result
+}
+
+func (m *CodeGen) LoadFieldTemplate(template string, data Field) string {
+	//*****************
+	//Read the template
+	//*****************
+	tpl, err := lib.ReadFileToString(template)
+	if err != nil {
+		panic(err)
+	}
+	m.current_data.Data = data
+	result, err := m.parseTemplate(tpl, m.current_data)
+	if err != nil {
+		panic(err)
+	}
+	return result
+}
+
+func (m *CodeGen) BuildTemplatePath(file string) string {
+	return path.Join(m.template_path, file)
+}
+
+func (m *CodeGen) parseTemplate(tpl string, data *Data) (string, error) {
 	//*********************
 	//Create a function map
 	//*********************
 	funcMap := template.FuncMap{
-		"base64enc":     lib.Base64EncString,
-		"base64dec":     lib.Base64DecString,
-		"gzip_base64":   lib.GzipBase64,
-		"lc":            strings.ToLower,
-		"uc":            strings.ToUpper,
-		"domain":        lib.GetDomainOrIP,
-		"port_string":   lib.GetPortString,
-		"port_int":      lib.GetPortInt,
-		"clean":         lib.Clean,
-		"concat":        lib.Concat,
-		"replace":       strings.ReplaceAll,
-		"contains":      lib.StringContainsStringListItem,
-		"not":           lib.NOT,
-		"or":            lib.OR,
-		"and":           lib.AND,
-		"plus":          lib.Plus,
-		"minus":         lib.Minus,
-		"multiply":      lib.Multiply,
-		"divide":        lib.Divide,
-		"camel":         strcase.ToCamel,
-		"pub_var_name":  lib.PubVarName,
-		"priv_var_name": lib.PrivVarName,
-
-		"func_name": lib.FuncName,
-		"safe":      lib.SafeName,
-		"display":   lib.DisplayName,
+		"tpl_path":       m.BuildTemplatePath,
+		"load_tpl":       m.LoadTemplate,
+		"load_field_tpl": m.LoadFieldTemplate,
+		"path_base":      path.Base,
+		"get_templates":  data.GetTemplates,
+		"base64enc":      lib.Base64EncString,
+		"base64dec":      lib.Base64DecString,
+		"gzip_base64":    lib.GzipBase64,
+		"lc":             strings.ToLower,
+		"uc":             strings.ToUpper,
+		"domain":         lib.GetDomainOrIP,
+		"port_string":    lib.GetPortString,
+		"port_int":       lib.GetPortInt,
+		"clean":          lib.Clean,
+		"concat":         lib.Concat,
+		"replace":        strings.ReplaceAll,
+		"contains":       lib.StringContainsStringListItem,
+		"not":            lib.NOT,
+		"or":             lib.OR,
+		"and":            lib.AND,
+		"plus":           lib.Plus,
+		"minus":          lib.Minus,
+		"multiply":       lib.Multiply,
+		"divide":         lib.Divide,
+		"camel":          strcase.ToCamel,
+		"pub_var_name":   lib.PubVarName,
+		"priv_var_name":  lib.PrivVarName,
+		"na":             lib.NA,
+		"func_name":      lib.FuncName,
+		"safe":           lib.SafeName,
+		"display":        lib.DisplayName,
 	}
 
 	//*****************

@@ -1,0 +1,76 @@
+{{if eq .Data.Type "string"}}
+                {{if .Data.FlagExists `EditView_PICKER`}}<Picker
+                BackgroundColor="{StaticResource White}"
+                {{if .Data.FlagExists `EditView_PICKER`}}{{if eq (.Data.GetFlagParam `EditView_PICKER` 0) "list"}}SelectedItem="{Binding Edit_item.{{.Data.PubVarName}}}">{{$data_type := pub_var_name (.Data.GetFlagParam `EditView_PICKER` 1)}}
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:{{$data_type}}}">
+                        {{range $data := (.Data.GetOpt `EditView_PICKER`).data}}<x:{{$data_type}}>{{$data}}</x:{{$data_type}}>
+                        {{end}}</x:Array>
+                    </Picker.ItemsSource>
+                {{end}}{{end}}</Picker>
+                {{else if .Data.FlagExists `EditView_EDITOR`}}
+                <Editor 
+                    FontSize="18" 
+                    BackgroundColor="{StaticResource White}"
+                    AutoSize="TextChanges"
+                    Text="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                {{else}}
+                <Entry 
+                    FontSize="18" 
+                    BackgroundColor="{StaticResource White}"
+                    Text="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                {{end}}
+                {{else if (.Data.FlagExists `RELATIONSHIP`)}}
+                <HorizontalStackLayout>
+                    <Picker
+                        MinimumWidthRequest="200"
+                        HorizontalOptions="StartAndExpand"
+                        BackgroundColor="{StaticResource White}"
+                        ItemDisplayBinding="{Binding {{.Data.GetFlagParam `RELATIONSHIP` 1}}}"
+                        ItemsSource="{Binding {{pub_var_name (.Data.GetFlagParam `RELATIONSHIP` 0)}}_items}"
+                        SelectedItem="{Binding Edit_item.{{pub_var_name (.Data.GetFlagParam `RELATIONSHIP` 0)}} , Mode=TwoWay}" >
+                    </Picker>
+                    <Button
+                        Margin="5"
+                        Command="{Binding Add{{func_name (.Data.GetFlagParam `RELATIONSHIP` 0)}}Command}"
+                        HorizontalOptions="End"
+                        Text="+"
+                        VerticalOptions="FillAndExpand"
+                        WidthRequest="40" />
+                </HorizontalStackLayout> 
+                {{else if .Data.FlagExists `EditView_TIME`}}
+                {{if .Data.FlagExists `EditView_DATE`}}
+                <DatePicker  
+                    Date="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                {{end}}
+                <TimePicker  
+                    Time="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                
+                {{else if .Data.FlagExists `EditView_DATE`}}
+                <DatePicker 
+                    Time="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                {{if .Data.FlagExists `EditView_TIME`}}
+                <TimePicker  
+                    Time="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                    {{end}}
+                {{else if eq .Data.Type "DateTime"}}
+                <DatePicker 
+                    Date="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                {{if .Data.FlagExists `EditView_TIME`}}
+                <TimePicker  
+                    Time="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                {{end}}
+                {{else if eq .Data.Type "bool"}}
+                <Switch HorizontalOptions="Start" IsToggled="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                {{else}}
+                <controls:NumInput
+                    {{if .Data.FlagExists `EditView_NUM_RANGE`}}
+                    MinValue="{{.Data.GetFlagParam `EditView_NUM_RANGE` 0 }}"
+                    MaxValue="{{.Data.GetFlagParam `EditView_NUM_RANGE` 1 }}"
+                    {{else}}
+                    MinValue="0"
+                    MaxValue="100"
+                    {{end}}
+                    BackgroundColor="{StaticResource Gray50}"
+                    Value="{Binding Edit_item.{{.Data.PubVarName}}}" />
+                {{end}}

@@ -96,7 +96,7 @@ First you will need to create a new project in Visual Studio using the **MAUI Ap
 Open **Visual Studio** and create a new project this will start the project selection menu. 
 
 
-![New Project](docs/img/new_project.png)
+![New Project](documents/img/new_project.png)
 
 </details>
 
@@ -109,7 +109,7 @@ Select the **MAUI App Accelerator** to start the project wizard.
 
 
 
-![App Accelerator](docs/img/app_accelerator.png)
+![App Accelerator](documents/img/app_accelerator.png)
 
 </details>
 
@@ -124,7 +124,7 @@ Enter the project name and solution name.
 
 
 
-![Configure Project](docs/img/configure_maui_app.png)
+![Configure Project](documents/img/configure_maui_app.png)
 
 </details>
 
@@ -137,7 +137,7 @@ Select the .NET version to use either .Net 6 or .NET 7.
 
 
 
-![.Net Version](docs/img/app_accelerator_net_version.png)
+![.Net Version](documents/img/app_accelerator_net_version.png)
 
 </details>
 
@@ -150,7 +150,7 @@ Select the MVVM Toolkit
 
 
 
-![Code Style](docs/img/app_accelerator_code_style.png)
+![Code Style](documents/img/app_accelerator_code_style.png)
 
 </details>
 
@@ -163,7 +163,7 @@ You can select Flyout or Tabs
 
 
 
-![Navigation](docs/img/app_accelerator_nav.png)
+![Navigation](documents/img/app_accelerator_nav.png)
 
 </details>
 
@@ -176,7 +176,7 @@ You can just click next on the pages.
 
 
 
-![Pages](docs/img/app_accelerator_pages.png)
+![Pages](documents/img/app_accelerator_pages.png)
 
 </details>
 
@@ -191,7 +191,7 @@ Add the following libraries:
 
 
 
-![Features](docs/img/app_accelerator_features.png)
+![Features](documents/img/app_accelerator_features.png)
 
 </details>
 
@@ -204,7 +204,7 @@ MAUI App Accelerator will create the project
 
 
 
-![Solution Explorer](docs/img/solution_explorer.png)
+![Solution Explorer](documents/img/solution_explorer.png)
 
 </details>
 
@@ -225,7 +225,7 @@ MAUI App Accelerator will create the project
 
 
 - You will need to add this to the file **AppShell.xaml.cs**
-![AppShell](docs/img/app_shell.png)
+![AppShell](documents/img/app_shell.png)
  - Add the comment just below the InitializeComponent and save changes.
 ```c#
 public partial class AppShell : Shell
@@ -257,7 +257,7 @@ public partial class AppShell : Shell
 ```
 
 - You will need to add this to the file **AppShell.xaml.cs**
-![MauiProgram](docs/img/maui_program.png)
+![MauiProgram](documents/img/maui_program.png)
 -  Add the comment just below the **builder.Services.AddSingleton<MainViewModel();** and save changes.
 ```c#
 public static class MauiProgram {
@@ -303,7 +303,7 @@ In this case we are pointing it to the **DemoMauiApp** created earlier.
 
 
 
-![MauiProgram](docs/img/project_folder.png)
+![MauiProgram](documents/img/project_folder.png)
 
 
 
@@ -432,7 +432,7 @@ Now that the code has been generated your can goto you Visual studio and you wil
 
 
 
-![Generated Code](docs/img/generated_code.png)
+![Generated Code](documents/img/generated_code.png)
 
 
 
@@ -441,13 +441,13 @@ You can now simple run the project and you should see.
 
 
 #### Main Menu
-![Menu](docs/img/project_menu.png)
+![Menu](documents/img/project_menu.png)
 
 #### Edit Person Form
-![Add Person](docs/img/project_add_person.png)
+![Add Person](documents/img/project_add_person.png)
 
 #### List Person Form
-![Add Person](docs/img/project_list_person.png)
+![Add Person](documents/img/project_list_person.png)
 
 
 </details>
@@ -455,10 +455,23 @@ You can now simple run the project and you should see.
 ---
 
 ## Documents
+[maui-gen CLI documents](./documents/maui-gen.md)
 
-* [maui-gen CLI documents](docs/maui-gen.md)
 
-
+```bash
+# Run maui-get to build template documents
+maui-gen gen_docs
+```
+You can find the generated documents here.
+* C:\Users\[User]\.maui-gen\documents\maui-gen.md
+  
+```bash
+# Run maui-get to build template documents
+maui-gen gen_template_docs
+```
+You can find the generated template documents here.
+* C:\Users\[User]\.maui-gen\template_doc/Templates.md
+  
 ---
 
 ## Examples
@@ -467,13 +480,13 @@ You can now simple run the project and you should see.
 <summary>Example Pictures</summary
 
 #### Main Menu
-![Menu](docs/img/project_menu.png)
+![Menu](documents/img/project_menu.png)
 
 #### Edit Person Form
-![Add Person](docs/img/project_add_person.png)
+![Add Person](documents/img/project_add_person.png)
 
 #### List Person Form
-![Add Person](docs/img/project_list_person.png)
+![Add Person](documents/img/project_list_person.png)
 
 </details>
 
@@ -503,7 +516,9 @@ This is just a proof of concept to see if it draws any attention if it does then
 ### v0.1.3
 - Added nuget package install cmd
 
-
+### v0.1.4
+- Added template function to inject other templates
+- Added Template Auto Generating documentation **maui-gen gen_template_docs**
 ---
 
 ## License

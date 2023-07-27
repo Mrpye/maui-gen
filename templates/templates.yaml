@@ -2,12 +2,14 @@
 - name: App
   template_file: App.xaml.cs
   output: App.xaml.cs
+  description: Overwrites the App.xaml.cs file
   process_template: true
   name_space: ""
   inject_tag: ""
   backup: true
 
 - name: App
+  description: Overwrites the App.xaml file
   template_file: App.xaml
   output: App.xaml
   process_template: true
@@ -16,6 +18,7 @@
   backup: true
 
 - name: Styles
+  description: Overwrites the Colors.xaml styles and adds some custom colors
   template_file: Resources/Styles/Colors.xaml
   output: Resources/Styles/Colors.xaml
   process_template: false
@@ -24,6 +27,7 @@
   backup: true
 
 - name: Styles
+  description: Overwrites the Styles.xaml styles and adds some custom styles
   template_file: Resources/Styles/Styles.xaml
   output: Resources/Styles/Styles.xaml
   process_template: false
@@ -32,6 +36,7 @@
   backup: true
 
 - name: Edit_icon
+  description: Adds an edit icon
   template_file: Resources/Images/edit.svg
   output: Resources/Images/edit.svg
   process_template: false
@@ -40,6 +45,7 @@
   backup: true
 
 - name: Delete_icon
+  description: Adds an Delete icon
   template_file: Resources/Images/delete.svg
   output: Resources/Images/delete.svg
   process_template: false
@@ -48,6 +54,7 @@
   backup: true
 
 - name: GlobalUsings
+  description: Builds Global using for all the namespaces
   template_file: GlobalUsings.cs
   output: GlobalUsings.cs
   process_template: true
@@ -56,6 +63,7 @@
   backup: true
 
 - name: AppShell
+  description: Injects routes for the forms AppShell.xaml.cs where //<%REGISTER_ROUTE%> is located
   template_file: AppShell.xaml.cs
   output: AppShell.xaml.cs
   process_template: true
@@ -64,6 +72,7 @@
   backup: true
 
 - name: MauiProgram
+  description: Injects singletons for the viewmodel models and views AppShell.xaml.cs where //<%REGISTER_SINGLETON%> is located
   template_file: MauiProgram.cs
   output: MauiProgram.cs
   process_template: true
@@ -72,24 +81,28 @@
   backup: true
 
 - name: Enums
+  description: Add an enum class with required enums
   template_file: Enums/Enums.cs
   output: Enums/Enums.cs
   process_template: true
   name_space: "Enums"
 
 - name: DBConstants
+  description: Adds a global DB settings
   template_file: Globals/DBConstants.cs
   output: Globals/DBConstants.cs
   process_template: true
   name_space: "Globals"
 
 - name: IEntity
+  description: Adds a Interface IEntity.cs used with the database
   template_file: Interfaces/IEntity.cs
   output: Interfaces/IEntity.cs
   process_template: true
   name_space: "Interfaces"
 
 - name: GenericModelDB
+  description: Adds a GenericModelDB.cs that has the basic methods needed for accessing database elements
   template_file: Services/GenericModelDB.cs
   output: Services/GenericModelDB.cs
   name_space: "Services"
@@ -98,26 +111,30 @@
     - DBConstants
 
 - name: OrientationMessage
+  description: Adds a OrientationMessage class
   template_file: Messages/RequestedOrientationMessage.cs
   output: Messages/RequestedOrientationMessage.cs
   name_space: "Messages"
   process_template: true
   depends_on:
     - Enums
-  
+
 - name: LocString
+  description: Adds a MarkupExtensions LocString for localizations
   template_file: MarkupExtensions/LocString.cs
   output: MarkupExtensions/LocString.cs
   name_space: "MarkupExtensions"
   process_template: true
 
 - name: EventToCommandBehavior
+  description: Adds a EventToCommandBehavior 
   template_file: Helper/EventToCommandBehavior.cs
   output: Helper/EventToCommandBehavior.cs
   name_space: "Helper"
   process_template: true
 
 - name: IAlertService
+  description: Adds a IAlertService interface used when need to display dialog boxes in VewModels
   template_file: Helper/IAlertService.cs
   output: Helper/IAlertService.cs
   name_space: "Helper"
@@ -125,30 +142,35 @@
   process_template: true
 
 - name: BaseViewModel
+  description: Adds a Base ViewModel 
   template_file: ViewModels/BaseViewModel.cs
   output: ViewModels/BaseViewModel.cs
   name_space: "ViewModels"
   process_template: true
 
 - name: StandardContentPage
+  description: Page layout template backend code
   template_file: Views/StandardContentPage_Template.cs
   output: Views/StandardContentPage.cs
   name_space: "Views"
   process_template: true
 
 - name: StandardContentPage
+  description: Page layout template layout
   template_file: Resources/ControlTemplate/StandardLayoutTemplate.xaml
   output: Resources/ControlTemplate/StandardLayoutTemplate.xaml
   name_space: "Views"
   process_template: true
 
 - name: MainPage
+  description: Builds the main page buttons for launching the editors
   template_file: Views/MainPage.xaml
   output: Views/MainPage.xaml
   name_space: "Views"
   process_template: true
 
 - name: MainPage
+  description: Builds the main page buttons for launching the editors
   template_file: Views/MainPage.xaml.cs
   output: Views/MainPage.xaml.cs
   name_space: "Views"
@@ -156,6 +178,7 @@
   register_singleton: "MainPage"
 
 - name: MainPage
+  description: The view model for the MainPage
   template_file: ViewModels/MainViewModel.cs
   output: ViewModels/MainViewModel.cs
   name_space: "ViewModels"
@@ -163,20 +186,25 @@
   register_singleton: "MainViewModel"
 
 - name: NumInput
+  description: Custom control backend code for editing numbers
   template_file: Controls/NumInput.xaml.cs
   output: Controls/NumInput.xaml.cs
   name_space: "Controls"
   process_template: true
 
 - name: NumInput
+  description: Custom control for editing numbers
   template_file: Controls/NumInput.xaml
   output: Controls/NumInput.xaml
   name_space: "Controls"
   process_template: true
 
-
+#*****************
 # Schema Templates
+#*****************
+
 - name: Model_Template
+  description: Builds a [schema name]Model.cs from the data schema
   template_file: Models/Model_Template.cs
   output: Models/{{.Schema.FuncName}}Model.cs
   name_space: "Models"
@@ -185,6 +213,52 @@
   register_singleton: "{{.Schema.FuncName}}Model"
   depends_on:
     - IEntity
+  flags:
+    - name: RELATIONSHIP
+      field_flag: true
+      description: Adds relationship with another data schema
+      example: >
+        flags:
+          - name: "RELATIONSHIP:pet,Animal_details"
+      params:
+        - name: Data Schema
+          description: Data schema to associate with.
+          data_type: string
+        - name: Display Value
+          description: The filed to use as a Display value.
+          data_type: string
+    - name: VALIDATE_Required
+      field_flag: true
+      description: Adds Required validation to the property
+      example: >
+        flags:
+          - name: "VALIDATE_Required"
+    - name: VALIDATE_MinLength
+      field_flag: true
+      description: Adds Min length of the string
+      example: >
+        flags:
+          - name: "VALIDATE_MinLength:1"
+      params:
+        - name: Min length
+          description: The Min Length Value
+          data_type: int
+    - name: VALIDATE_MaxLength
+      field_flag: true
+      description: Adds Max length of the string
+      example: >
+        flags:
+          - name: "VALIDATE_MaxLength:30"
+      params:
+        - name: Max length
+          description: The Min Length Value
+          data_type: int
+    - name: Model_Template_EXCLUDE
+      field_flag: true
+      description: Exclude the filed from the model
+      example: >
+        flags:
+          - name: "Model_Template_EXCLUDE"
 
 - name: IModel_Template
   template_file: Interfaces/IModel_Template.cs
@@ -192,6 +266,13 @@
   name_space: "Interfaces"
   process_template: true
   schema_template: true
+  flags:
+    - name: Model_Template_EXCLUDE
+      field_flag: true
+      description: Exclude the filed from the model
+      example: >
+        flags:
+          - name: "Model_Template_EXCLUDE"
 
 - name: ModelDB_Template
   template_file: Services/ModelDB_Template.cs
@@ -225,6 +306,20 @@
     - IAlertService
     - Edit_icon
     - Delete_icon
+  flags:
+    - name: RELATIONSHIP
+      field_flag: true
+      description: Adds relationship with another data schema
+      example: >
+        flags:
+          - name: "RELATIONSHIP:pet,Animal_details"
+      params:
+        - name: Data Schema
+          description: Data schema to associate with.
+          data_type: string
+        - name: Display Value
+          description: The filed to use as a Display value.
+          data_type: string
 
 - name: ListView
   template_file: Views/ListPage_Template.xaml
@@ -249,8 +344,37 @@
     - DetailsView
     - StandardContentPage
     - OrientationMessage
-
-
+  flags:
+    - name: RELATIONSHIP
+      field_flag: true
+      description: Adds relationship with another data schema
+      example: >
+        flags:
+          - name: "RELATIONSHIP:pet,Animal_details"
+      params:
+        - name: Data Schema
+          description: Data schema to associate with.
+          data_type: string
+        - name: Display Value
+          description: The filed to use as a Display value.
+          data_type: string  
+    - name: ListView_DISPLAY_PROPERTY
+      field_flag: false
+      description: Uses the selected property to display values rather than the fields
+      example: >
+        flags:
+          - name: "ListView_DISPLAY_PROPERTY:Person_Details"
+      params:
+        - name: Field
+          description: The field to use 
+          data_type: string
+    - name: ListView_EXCLUDE
+      field_flag: true
+      description: Exclude the field
+      example: >
+        flags:
+          - name: "ListView_EXCLUDE"
+    
 - name: EditView
   template_file: ViewModels/EditViewModel_Template.cs
   output: ViewModels/{{.Schema.FuncName}}EditViewModel.cs
@@ -263,6 +387,20 @@
     - BaseViewModel
     - IAlertService
     - NumInput
+  flags:
+    - name: RELATIONSHIP
+      field_flag: true
+      description: Adds relationship with another data schema
+      example: >
+        flags:
+          - name: "RELATIONSHIP:pet,Animal_details"
+      params:
+        - name: Data Schema
+          description: Data schema to associate with.
+          data_type: string
+        - name: Display Value
+          description: The filed to use as a Display value.
+          data_type: string  
 
 - name: EditView
   template_file: Views/EditPage_Template.xaml
@@ -272,6 +410,75 @@
   schema_template: true
   depends_on:
     - Model_Template
+  flags:
+    - name: EditView_EXCLUDE
+      field_flag: true
+      description: Exclude the field
+      example: >
+        flags:
+          - name: "EditView_EXCLUDE"
+    - name: RELATIONSHIP
+      field_flag: true
+      description: Adds relationship with another data schema
+      example: >
+        flags:
+          - name: "RELATIONSHIP:pet,Animal_details"
+      params:
+        - name: Data Schema
+          description: Data schema to associate with.
+          data_type: string
+        - name: Display Value
+          description: The filed to use as a Display value.
+          data_type: string  
+    - name: EditView_PICKER
+      field_flag: true
+      description: Make the edit box be a picker
+      options_required: true
+      example: >
+        flags:
+          - name: "EditView_PICKER:list,string"
+            options:
+              data:
+                - M
+                - F  
+      params:
+        - name: picker data type
+          description: how to configure the picker
+          data_type: string
+        - name: Data Type
+          description: the data type
+          data_type: string  
+    - name: EditView_EDITOR
+      field_flag: true
+      description: Use a editor control
+      example: >
+        flags:
+          - name: "EditView_EDITOR"
+    - name: EditView_TIME
+      field_flag: true
+      description: Use a time control
+      example: >
+        flags:
+          - name: "EditView_TIME"
+    - name: EditView_DATE
+      field_flag: true
+      description: Use a date control
+      example: >
+        flags:
+          - name: "EditView_DATE"
+    - name: EditView_NUM_RANGE
+      field_flag: true
+      description: Sets the num range when int value 
+      example: >
+        flags:
+          - name: "EditView_NUM_RANGE:1,100"
+      params:
+        - name: Min Value
+          description: Min Value
+          data_type: int
+        - name: Max Value
+          description: Max Value
+          data_type: int  
 
 - name: EditView
   template_file: Views/EditPage_Template.xaml.cs
@@ -299,7 +506,6 @@
     - BaseViewModel
     - IAlertService
 
-
 - name: DetailsView
   template_file: Views/DetailsPage_Template.xaml
   output: Views/{{.Schema.FuncName}}DetailsPage.xaml
@@ -308,6 +514,26 @@
   schema_template: true
   depends_on:
     - Model_Template
+  flags:
+    - name: EditView_EXCLUDE
+      field_flag: true
+      description: Exclude the field
+      example: >
+        flags:
+          - name: "EditView_EXCLUDE"
+    - name: RELATIONSHIP
+      field_flag: true
+      description: Adds relationship with another data schema
+      example: >
+        flags:
+          - name: "RELATIONSHIP:pet,Animal_details"
+      params:
+        - name: Data Schema
+          description: Data schema to associate with.
+          data_type: string
+        - name: Display Value
+          description: The filed to use as a Display value.
+          data_type: string  
 
 - name: DetailsView
   template_file: Views/DetailsPage_Template.xaml.cs
@@ -321,4 +547,3 @@
     - Model_Template
     - StandardContentPage
     - OrientationMessage
-    
