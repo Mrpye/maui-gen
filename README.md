@@ -471,7 +471,13 @@ maui-gen gen_template_docs
 ```
 You can find the generated template documents here.
 * C:\Users\[User]\.maui-gen\template_doc/Templates.md
-  
+
+## Videos
+
+[![How to use Maui Gen](https://img.youtube.com/vi/2wSNWUeM1yE/maxresdefault.jpg)]
+(https://www.youtube.com/watch?v=2wSNWUeM1yE)
+
+{% include youtube.html id="2wSNWUeM1yE" %}
 ---
 
 ## Examples
